@@ -67,9 +67,17 @@ class GeoTable extends GeoTag
         $rowAligns = null
     ) {
         $this->setAtt("width", $width);
+        
+        if ($cellspacing){
+            $this->setAtt("cellspacing", $cellspacing);
+        }
+        
         $this->setAtt("cellpadding", $cellpadding);
-        $this->setAtt("cellspacing", $cellspacing);
-        $this->setAtt("border", $border);
+        
+        if ($border) {
+            $this->setAtt("border", $border);
+        }
+        
         $this->setRowClasses($rowClasses);
         $this->setColClasses($colClasses);
         $this->colAligns=$colAligns;
