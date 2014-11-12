@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 if ((function_exists("session_status") && session_status() == PHP_SESSION_NONE) || !session_id()) {
     session_start();
 }
-if(file_exists("config.php")){
+if (file_exists("config.php")) {
     include "config.php";
 } else {
     // user added site specific variables
@@ -28,7 +28,7 @@ if(file_exists("config.php")){
     define("GEO_DEFAULT_EMAIL", "");
     define("GEO_DEFAULT_FROM", "");
     define("GEO_IMAGE_PATH", "");
-    define("GEO_DEBUG_PASSWORD","password");
+    define("GEO_DEBUG_PASSWORD", "password");
 }
 
 spl_autoload_register('geolib_autoloader');
@@ -117,7 +117,8 @@ function geoLink($link = null, $text = null, $class = null, $target = null, $tit
 function geoAnchor($name)
 {
     $link = new GeoLink();
-    $link->setName($name);
+    $link->setAtt("name",$name);
+    $link->setAtt("id",$name);
     return $link->tag();
 }
 
@@ -384,6 +385,19 @@ function geoPassword($name, $value = null, $id = null, $atts = null, $class = nu
     return geoInput('password', $name, $value, $atts, $id, $class);
 }
 
+/**
+ * Create an HTML submit button.
+ * 
+ * @param string       $type  Type if input element
+ * @param string       $name  Name of returned value
+ * @param string       $value Return value
+ * @param string|array $atts  Any other atts. Can be string with "=" to indicate 1 attribute
+ * @param string       $id    Id attribute 
+ * @param string       $class Class attribute
+ * @param string       $style Style attribute
+ *
+ * @return string HTML Submit Button 
+ */
 function geoInput($type = 'text', $name = null, $value = null, $atts = null, $id = null, $class = null, $style = null)
 {
     if ($atts && !is_array($atts)) {
@@ -404,7 +418,24 @@ function geoInput($type = 'text', $name = null, $value = null, $atts = null, $id
     return geoTag("input", $value, $class, $id, $style, $atts);
 }
 
-
+/**
+ * Create an HTML submit button.
+ *
+ * @param string $name        Name of returned value
+ * @param string $text        Checkbox text
+ * @param bool   $isChecked   Indicates that this box is checked
+ * @param string $id          Id attribute. To add labels to the text, you must add $id
+ * @param string $trueOrFalse Indicates type of return value 
+ *                               Use 't' or 'f', in which cases checkbox value will return 't' or 'f' 
+ *                                   instead of true or null
+ *                               If 'f' is used, checkbox will reverse true for false.
+ *                               When using checkbox arrays (as in checkboxName[]), use $trueOrFalse for the value
+ * @param string $extLabel    External label. To create an unattached label, pass a true variable as $extlabel 
+ *                                   and then use $extLabel as the label 
+ * @param string $class       Class attribute
+ *
+ * @return string HTML Submit Button 
+ */
 function geoCheckbox(
     $name,
     $text = null,
@@ -414,12 +445,7 @@ function geoCheckbox(
     &$extLabel = null,
     $class = null
 ) {
-    // to create an unattached label, pass a true variable as $extlabel and then use $extLabel
-    // use $trueOrFalse='t' or 'f', in which cases checkbox value will return 't' or 'f' instead of true or null
-    // if 'f' is used, checkbox will reverse true for false.
-    // To add labels to the text, you must add $id
     
-    // when using checkbox arrays (as in checkboxName[]), use $trueOrFalse for value
     $atts = array();
     
     if ($trueOrFalse === true) {
@@ -478,6 +504,18 @@ function geoCheckbox(
     return $false . $result;
 }
 
+/**
+ * Create an HTML submit button.
+ *
+ * @param string       $value Submit button text
+ * @param string       $name  Name of returned value 
+ * @param string       $class Class attribute
+ * @param string       $id    Id attribute
+ * @param string|array $atts  Any other atts. If string, will be used as "onclick" attribute 
+ * @param string       $style Style attribute
+ *
+ * @return string HTML Submit Button 
+ */
 function geoSubmit($value = "Submit", $name = null, $class = null, $id = null, $atts = null, $style = null)
 {
     if ($atts && !is_array($atts)) {
@@ -485,14 +523,29 @@ function geoSubmit($value = "Submit", $name = null, $class = null, $id = null, $
         $atts             = $atts2;
     }
     
-    // if commenting out, please explain why submit needs id to be same as name
+    // id behaves the opposite of geoInput();
     if (!$id) {
         $id = true;
+    }elseif($id===true){
+        $id=null;    
     }
+    
     
     return geoInput('submit', $name, $value, $atts, $id, $class, $style);
 }
 
+/**
+ * Create an HTML image submit button.
+ *
+ * @param string       $src   Image path
+ * @param string       $name  Name of return value
+ * @param string       $atts  Any other atts. If string, will be used as "onclick" attribute 
+ * @param array|string $id    Id attribute
+ * @param string       $class Class attribute
+ * @param string       $style Style attribute
+ *
+ * @return string HTML image submit button 
+ */
 function geoImgSubmit($src, $name = null, $atts = null, $id = null, $class = null, $style = null)
 {
     if ($atts && !is_array($atts)) {
@@ -503,6 +556,18 @@ function geoImgSubmit($src, $name = null, $atts = null, $id = null, $class = nul
     return geoInput('image', $name, null, $atts, $id, $class, $style);
 }
 
+/**
+ * Create HTML button.
+ *
+ * @param string       $value Return value
+ * @param string       $id    Id Attribute 
+ * @param string       $class Class Attribute
+ * @param array|string $atts  Any other atts. If string, will be used as "onclick" attribute 
+ * @param string       $name  Name of returned value
+ * @param string       $style Style attribute
+ *
+ * @return string HTML list item 
+ */
 function geoButton($value, $id = null, $class = null, $atts = null, $name = null, $style = null)
 {
     if ($atts && !is_array($atts)) {
@@ -512,18 +577,32 @@ function geoButton($value, $id = null, $class = null, $atts = null, $name = null
     return geoInput('button', $name, $value, $atts, $id, $class, $style);
 }
 
-// All radios in 1 group have the same name and different ids
+/**
+ * Create a radio button.
+ *
+ * @param string $name      Name of radio button group
+ * @param string $id        Id attribute 
+ * @param string $label     Text of label 
+ * @param bool   $isChecked Indicates that this element is selected  
+ * @param string $value     Radio group will return this value if this element is selected
+ * @param array  $atts      Any other attributes 
+ * @param string $class     Class attribute 
+ * @param bool   $isScale   Indicates that the radio button and its label are returned in 2 divs, 
+ *                              instead of together in one line. This is handy for creating 1-10 scales 
+ *
+ * @return string HTML list item 
+ */
 function geoRadio(
     $name,
     $id,
-    $title = null,
+    $label = null,
     $isChecked = null,
     $value = null,
     $atts = null,
     $class = null,
     $isScale = null
 ) {
-    //GeoDebug::db($isChecked, $name);
+
     if (!isset($value)) {
         $value = $id;
     }
@@ -534,8 +613,8 @@ function geoRadio(
     
     $radio[] = geoInput('radio', $name, $value, $atts, $id, $class);
     
-    if ($title) {
-        $radio[] = geoLabel($title, $id);
+    if ($label) {
+        $radio[] = geoLabel($label, $id);
     }
     
     if ($isScale) {
@@ -546,31 +625,19 @@ function geoRadio(
     
 }
 
-function geoBool($name, $title1, $title2, $testValue, $break = null, $listClass = null, $inputClass = null)
-{
-    // if testValue is true, the second radio button is checked. Otherwise, the first radio button is checked.
-    return geoRadios(
-        $name,
-        array($title1, $title2),
-        $testValue,
-        $break,
-        null,
-        $listClass,
-        $inputClass
-    );
-}
 
 /**
- * Create html list of radio buttons
+ * Create a group of radio button as an HTML string or list, or as an array
+ *     All radios in 1 group have the same name and different ids
  *
  * @param string $name        Name of Radio group. Also becomes id, with added index. 
  * @param array  $titles      An array of $values=>$titles
  * @param string $default     Value of selected radio button
  * @param mixed  $listClass   If this value is supplied:
-                                if true, function returns an array of radio buttons. 
-                                if string, function returns a list with this class.
+ *                                If true, function returns an array of radio buttons. 
+ *                                If string, function returns a list with this class.
  * @param string $break       Value of HTML between buttons
-                                 if true, function returns an array of radio buttons.                         
+ *                                If true, function returns an array of radio buttons.                         
  * @param string $origDefault Original default value (This item receives the "default" class)
  * @param string $inputClass  Each radio input is given this class 
  * @param bool   $isScale     Causes radiobuttons to be returned inside with "geoScale" class 
@@ -631,14 +698,14 @@ function geoRadios(
 
 
 /**
- * Create html label.
+ * Create HTML label.
  *
  * @param string $text  Content of list item array to test
  * @param string $for   For of label 
  * @param string $class Id of label 
  * @param string $id    Style of label 
  *
- * @return string html list item 
+ * @return string HTML list item 
  */
 function geolabel($text, $for, $class = null, $id = null)
 {
@@ -647,14 +714,14 @@ function geolabel($text, $for, $class = null, $id = null)
 
 
 /**
- * Create html list item. (Usually not neccesary since geoList takes arrays of content values)
+ * Create HTML list item. (Usually not neccesary since geoList takes arrays of content values)
  *
  * @param string $text  Content of list item 
  * @param string $class Class of list item 
  * @param string $id    Id of list item 
  * @param string $style Style of list item 
  *
- * @return string html list item 
+ * @return string HTML list item 
  */
 function geoItem($text = null, $class = null, $id = null, $style = null)
 {
@@ -664,19 +731,19 @@ function geoItem($text = null, $class = null, $id = null, $style = null)
 
 
 /**
- * Create html list or array of lists
+ * Create HTML list or array of lists
  *
  * @param array   $lists       1 or 2 dimensional array
-        a 2 dimensional array will result in a list for each array. 
-        to have ids for each list item, 
-        make item keys non integer, such as "item_3"
+ *       A 2 dimensional array will result in a list for each array. 
+ *       To have ids for each list item, 
+ *           make item keys non integer, such as "item_3"
  * @param string  $class       List Class or classes
-    If lists is multidemensional: 
-        If class is a string, it becomes the class for all lists.
-        if class is an array, each row is a class for 1 list
-    If lists is not multidementional
-        If class is a string, class is a list class.
-        If class is an array, each row becomes a class for 1 list item
+ *   If lists is multidemensional: 
+ *       If class is a string, it becomes the class for all lists.
+ *       If class is an array, each row is a class for 1 list
+ *   If lists is not multidementional
+ *      If class is a string, class is a list class.
+ *      If class is an array, each row becomes a class for 1 list item
  * @param string  $id          List id
  * @param integer $cols        Number of columns. Break $lists into one list for each column
  * @param string  $style       List Style
@@ -741,7 +808,7 @@ function geoIsMultiArr($array)
  * @param array  $array Either a 1 or 2 dimensional array
  * @param string $name  Key value for new 2 dimensional array
  *
- * @return 2 dimensional array
+ * @return array 2 dimensional array
  */
 function geoMultiArr($array, $name = "0")
 {
@@ -754,7 +821,7 @@ function geoMultiArr($array, $name = "0")
     );
 }
 /**
- * Create an Html table
+ * Create an HTML table
  *
  * @param array  $rows        Text
  * @param string $class       Table class
@@ -821,13 +888,13 @@ function geoTable(
 /**
  * Create start tags
  *
- * @param string $tag   Name of html tag
+ * @param string $tag   Name of HTML tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
  * @param array  $atts  Any other attributes
  *
- * @return string Html Tag without the end tag
+ * @return string HTML Tag without the end tag
  */
 function geoStart($tag, $class = null, $id = null, $style = null, $atts = null)
 {
@@ -870,7 +937,7 @@ function geoEnd($tags = null)
      *
      * @param mixed  $variable Any type of variable being debugged
      * @param string $name     Name used for displaying debug variable
-     * @param bool   $isHtml   Display strings as html. Default displays hightlighted html tags.
+     * @param bool   $isHtml   Display strings as HTML. Default displays hightlighted HTML tags.
      *
      * @return void
      */
@@ -927,10 +994,10 @@ function geoCell($celltext, $colspan = null, $rowspan = null, $class = null, $va
  * @param bool   $addBacktrace Determines whether to add backtrace to debug display
  * @param bool   $return       Determines whether debugging content is displayed
  *                                 or saved. Default is saved.
- * @param bool   $noHighlight  Display strings as html. Default displays html tags.
+ * @param bool   $noHighlight  Display strings as HTML. Default displays HTML tags.
  * @param bool   $always       Always debug, even when not in debugging mode
  *
- * @return html debug content is formatted with html
+ * @return string debug content is formatted with HTML
  */
 function geoDb(
     $variable = null,
@@ -952,7 +1019,7 @@ function geoDb(
  * @param string $prefix         Prefix to add to name
  * @param string $printableClass Display data as strings instead of text input fields, and use this as class
  *
- * @return html text input with validation
+ * @return HTML text input with validation
  */
 function geoValidText($name, &$values, &$missing, $prefix = null, $printableClass = null)
 {

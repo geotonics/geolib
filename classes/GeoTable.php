@@ -68,7 +68,7 @@ class GeoTable extends GeoTag
     ) {
         $this->setAtt("width", $width);
         
-        if ($cellspacing){
+        if ($cellspacing) {
             $this->setAtt("cellspacing", $cellspacing);
         }
         

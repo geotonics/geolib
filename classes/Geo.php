@@ -303,7 +303,7 @@ class Geo
      *
      * @return void
      */
-    public static function setSession($name, $value = null, $arrayName = null)
+    public static function setSession($name, $value = '', $arrayName = null)
     {
         if (isset($value)) {
             if ($arrayName) {
