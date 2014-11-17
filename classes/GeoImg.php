@@ -84,7 +84,6 @@ class GeoImg extends GeoTag
             } else {
                 $this->absolutePath=$_SERVER["DOCUMENT_ROOT"].geoIf($this->atts["src"][0]!="/", "/").$this->atts["src"];
             }
-            
         }
     }
     

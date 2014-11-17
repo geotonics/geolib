@@ -38,18 +38,18 @@ class GeoHead extends GeoTag
     /**
      * Constructor
      *
-     * @param string        $title       Document title
-     * @param array|string  $stylesheets Paths to document stylesheets. Can be 1 stylesheet or an array
-     * @param string|string $scripts     Paths to document scripts. Can be either 1 script or an array
-     * @param string        $styles      Styles for style tag in head
-     * @param array         $metas       Content of metatags
-     * @param string        $addlTags    Any additional tags for head
-     *                                   addlTags can be multi or non multi. Examples:
+     * @param string       $title       Document title
+     * @param string|array $stylesheets Paths to document stylesheets. Can be 1 path or an array
+     * @param string|array $scripts     Paths to document scripts. Can be either 1 path or an array
+     * @param string       $styles      Styles for style tag in head
+     * @param array        $metas       Content of metatags
+     * @param string|array $addlTags    Any additional tags for head
+     *                                      addlTags can be multi or non multi. Examples:
      *                                      array:$tags["script"][$script]=array("type"=>'text/script');
      *                                      $addlTags['link'][]=array("rel"=>'goback');
      *                                      $addlTags['link']=array("rel"=>'goback');
-     * @param string        $media       Media attribute
-     * @param string        $addHtml     Any additional html for head
+     * @param string       $media       Media attribute
+     * @param string       $addHtml     Any additional html for head
      */
     public function __construct(
         $title = null,
@@ -242,9 +242,9 @@ class GeoHead extends GeoTag
      * Add tags to the head
      *
      * @param array|string $addlTags Additional tags for the head.
-     *                               Can be a 3 D array in the form of $array($tagname=>$tagContentArray)
-     *                               Can be an 3 D array in the form of $array($tagname=>$tagContentString)
-     *                               Can be a string. String is assumed to be the content of a script tag
+     *     Can be a 2 D array in the form of $array($tagname=>$tagContentArray)
+     *     Can be an 1 D array in the form of $array($tagname=>$tagContentString)
+     *     Can be a string. String is assumed to be the content of a script tag
      *
      * @return string $scripts Script tags
      */

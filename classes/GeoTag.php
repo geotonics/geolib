@@ -102,7 +102,7 @@ class GeoTag
         }
         
         if ($atts) {
-            $atts = Geo::arr($atts);
+            //$atts = Geo::arr($atts);// atts should always be an array, so this is probably not neccesary
             foreach ($atts as $att => $value) {
                 $this->setAtt($att, $value);
             }

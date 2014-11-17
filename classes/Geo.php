@@ -776,4 +776,43 @@ class Geo
             return $files;
         }
     }
+    
+    
+    /**
+     * Creates validated text input fields, or simply displays values
+     *
+     * @param string $name           Input name
+     * @param array  $values         Reference to array of values (usually from database)
+     * @param array  $missing        Reference to array of validation messages
+     * @param string $prefix         Prefix to add to name
+     * @param string $printableClass Display data as strings instead of text input fields, and use this as class
+     *
+     * @return HTML text input with validation
+     */
+    public function validText($name, &$values, &$missing, $prefix = null, $printableClass = null)
+    {
+        if (isset($values[$name])) {
+            $value=$values[$name];
+        } else {
+            $value='';
+        }
+      
+        //geoDb($value,'thevalue');
+        if ($printableClass) {
+            return span($value, $printableClass);
+        }
+      
+        if ($prefix) {
+            $prefixName=$prefix."_".$name;
+        } else {
+            $prefixName=$name;
+        }
+      
+      
+        $input=geoInput('text', $prefixName, $value, null, $prefixName);
+        if (isset($missing[$prefixName])) {
+            $input.=div($missing[$prefixName], 'errorText');
+        }
+        return $input;
+    }
 }
