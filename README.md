@@ -7,7 +7,7 @@ The Geolib PHP Framework is a small, easy to use system for writing webpages. Un
 
 Also included are a few handy utility functions to perform some of the more common tasks that you will encounter when writing web sites, and a method for debugging PHP variables.
 
-Here is the [Class Documentation](http://geotonics.com/doc/geolibdoc/).
+Here is the [ApiGen Documentation](http://geotonics.com/doc/geolib/).
 
 ####What it is not
 

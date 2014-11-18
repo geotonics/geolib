@@ -767,7 +767,7 @@ function geoInput($type = 'text', $name = null, $value = null, $atts = null, $id
 }
 
 /**
- * Create an HTML submit button.
+ * Create an HTML checkbox.
  *
  * @param string $name        Name of value retured by this field
  * @param string $text        Checkbox text
@@ -782,7 +782,7 @@ function geoInput($type = 'text', $name = null, $value = null, $atts = null, $id
  *                                   and then use $extLabel as the label
  * @param string $class       Class attribute
  *
- * @return string HTML Submit Button
+ * @return string HTML checkbox
  */
 function geoCheckbox(
     $name,
