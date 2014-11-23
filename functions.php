@@ -9,10 +9,7 @@
  * @author   Peter Pitchford <peter@geotonics.com>
  * @license  GNU Lesser General Public Licence see LICENCE file or http://www.gnu.org/licenses/lgpl.html
  * @link     http://geotonics.com/#geolib
-
 */
-
-
 
 /**
  * Loads geolib PHP class files.
@@ -160,17 +157,17 @@ function geoNoScript($content)
  *
  * @param string $link   Link destination (with or without host)
  * @param string $text   Text of link
- * @param string $class  Class attribute
- * @param string $target Target attribute
  * @param string $title  Title attribute
+ * @param string $target Target attribute
+ * @param string $class  Class attribute
  * @param string $id     Id attribute
  * @param array  $atts   Any other attributes
  *
  * @return string HTML a tag
 */
-function geoLink($link = null, $text = null, $class = null, $target = null, $title = null, $id = null, $atts = null)
+function geoLink($link = null, $text = null, $title = null, $target = null, $class = null, $id = null, $atts = null)
 {
-    $link = new GeoLink($link, $text, $class, $target, $title, $id, $atts);
+    $link = new GeoLink($link, $text, $title, $target, $class, $id, $atts);
     return $link->tag();
 }
 
@@ -839,7 +836,7 @@ function geoCheckbox(
     $result = geoInput('checkbox', $name, $value, $atts, $id, $class);
   
     if ($text) {
-        $label = geolabel(" " . $text, $id, $class);
+        $label = geoLabel(" " . $text, $id, $class);
         if ($extLabel) {
             $extLabel = $label;
         } else {
@@ -1055,7 +1052,7 @@ function geoRadios(
  *
  * @return string HTML list item
  */
-function geolabel($text, $for, $class = null, $id = null)
+function geoLabel($text, $for, $class = null, $id = null)
 {
     return geoTag("label", $text, $class, $id, null, array("for" => $for));
 }

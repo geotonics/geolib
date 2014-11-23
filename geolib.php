@@ -41,7 +41,7 @@ if (GEO_START_SESSION) {
 }
 
 // Include wrapper functions
-include "functions.php";
+require "functions.php";
 spl_autoload_register('geolib_autoloader');
 GeoDebug::init();
 GeoHtml::setDoctype();

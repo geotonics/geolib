@@ -471,11 +471,11 @@ class GeoDebug
                     geoJsLink(
                         'X',
                         null,
+                        'Close Debug Area',
+                        'emptyParent floatRight',
                         array(
                             "onclick" => "this.parentNode.style.display = 'none';"
-                        ),
-                        'emptyParent floatRight',
-                        'Close Debug Area'
+                        )
                     )."\n      ".div($_SESSION['geoDebugVars'], 'geodb', null, 'margin:.5em;'),
                     'geoDebugVars',
                     null,

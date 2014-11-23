@@ -86,4 +86,4 @@ if (isset($_SESSION['geoDebugIsAuthorized'])) {
 
 
 $head=new GeoHead($title, "/geolib.css");
-echo geoHtml(div($body, "page"), $head);'
+echo geoHtml(div($body, "page"), $head);

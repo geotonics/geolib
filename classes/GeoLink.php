@@ -35,9 +35,9 @@ class GeoLink extends GeoTag
      * @param string $link   href path of link
      * @param string $text   Text of link
      *     If text has html tags, then you need to add a (non html) text title so the the title does not have html
-     * @param string $class  class of link
      * @param string $title  title of link
      * @param string $target target of link
+     * @param string $class  class of link
      * @param string $id     id of link
      * @param string $atts   any other atts of link
      * @param string $style  style of link
@@ -47,9 +47,9 @@ class GeoLink extends GeoTag
     public function __construct(
         $link = null,
         $text = null,
-        $class = null,
         $title = null,
         $target = null,
+        $class = null,
         $id = null,
         $atts = null,
         $style = null

@@ -1,7 +1,8 @@
 <?php
 /**
 * Document for geolib configuration
- * To add configurations to geolib, add the missing values and change the name of this file to "config.php"
+ * To add configurations to geolib, add the missing values and change the name of
+ *     this file to "config.php"
  *
  * PHP Version 5.6
  *
@@ -26,4 +27,4 @@ if (!defined("GEO_BASE")) {
 }
 
 // change true to false if you don't want session to start when geolib is loaded 
-define("GEO_START_SESSION",true);
+define("GEO_START_SESSION", true);
