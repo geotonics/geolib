@@ -789,7 +789,7 @@ class Geo
      *
      * @return HTML text input with validation
      */
-    public function validText($name, &$values, &$missing, $prefix = null, $printableClass = null)
+    public static function validText($name, &$values, &$missing, $prefix = null, $printableClass = null)
     {
         if (isset($values[$name])) {
             $value=$values[$name];

@@ -31,12 +31,12 @@ class GeoDebug
     public static function init()
     {
         // initialize variables if they don't exist.
-        Geo::Val($_SESSION['geoIsDebugSession']);
-        Geo::Val($_SESSION['geoOrigIsDebugSession']);
-        Geo::Val($_SESSION['geoSaveDebugVars']);
-        Geo::Val($_SESSION['geoDbOut']);
-        Geo::Val($_SESSION["geoDebugErrors"], array());
-        Geo::Val($_SESSION["geoDebugVars"], array());
+        Geo::val($_SESSION['geoIsDebugSession']);
+        Geo::val($_SESSION['geoOrigIsDebugSession']);
+        Geo::val($_SESSION['geoSaveDebugVars']);
+        Geo::val($_SESSION['geoDbOut']);
+        Geo::val($_SESSION["geoDebugErrors"], array());
+        Geo::val($_SESSION["geoDebugVars"], array());
         
         // Add previously generated error messages to geolib debugging messages.
         // This is useful if you want to display errors from before gealib is included.
@@ -451,7 +451,7 @@ class GeoDebug
         //geo::trace(true);
         if ($_SESSION['geoIsDebugSession']) {
             $result='';
-            if (geo::Val($_SESSION['geoDebugVars'])) {
+            if (Geo::val($_SESSION['geoDebugVars'])) {
                 if (!$style) {
                     $style = "margin:1em 0; overflow:auto;clear:both;";
                     if ($height) {
