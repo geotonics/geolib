@@ -297,29 +297,81 @@ class Geo
     /**
      * Sets session variables. Optionally add name of session array
      *
-     * @param string $name      Name of session variable
-     * @param string $value     Value of session variable
-     * @param string $arrayName Name of session array
+     * @param string $name         Name of session variable
+     * @param string $value        Value of session variable
+     * @param string $subArrayName Name of session sub array.
+     * @param string $arrayName    Name of session array. Default is "geolib"
      *
      * @return void
      */
-    public static function setSession($name, $value = '', $arrayName = null)
-    {
-        if (isset($value)) {
-            if ($arrayName) {
-                $_SESSION[$arrayName][$name] = $value;
+    public static function setSession($name, $value = null,$subArrayName=null, $arrayName = GEO_INSTANCE)
+    {   
+        if ($arrayName) {
+            if ($subArrayName) {  
+                if ($name) {
+                    if ($value) {
+                        $_SESSION[$arrayName][$subArrayName][$name]=$value;
+                    } else {
+                        unset($_SESSION[$arrayName][$subArrayName][$name]);
+                    }
+                } else {
+                    if ($value) {
+                        $_SESSION[$arrayName][$subArrayName][]=$value;
+                    } else {
+                        unset($_SESSION[$arrayName][$subArrayName]);
+                    }
+                }
+            } else {  
+                if ($name) {
+                    if ($value) {
+                        $_SESSION[$arrayName][$name]=$value;
+                    } else {
+                        unset($_SESSION[$arrayName][$name]);
+                    }
+                } else {
+                    if ($value) {
+                        $_SESSION[$arrayName][]=$value;
+                    } else {
+                        unset($_SESSION[$arrayName]);
+                    }
+                }
+            } 
+        } elseif ($name) {
+            if ($value) {
+                $_SESSION[$name]=$value;
             } else {
-                    $_SESSION[$name] = $value;
+                unset($_SESSION[$name]);
             }
-        } else {
-            if ($arrayName) {
-                unset($_SESSION[$arrayName][$name]);
-            } else {
-                    unset($_SESSION[$name]);
+        }
+    }   
+    
+    /**
+     * Gets session variables.
+     *
+     * @param string $name         Name of session variable
+     * @param string $subArrayName Name of session sub array.
+     * @param string $arrayName    Name of session array. Default is "geolib"
+     *
+     * @return void
+     */
+    public static function session($name, $subArrayName=null, $arrayName=GEO_INSTANCE)
+    {
+       
+        if ($arrayName) {
+            if ($subArrayName) {
+                if (isset($_SESSION[$arrayName][$subArrayName][$name])) {
+                    return $_SESSION[$arrayName][$subArrayName][$name];
+                }
+            } elseif (isset($_SESSION[$arrayName][$name])) {
+                return $_SESSION[$arrayName][$name];
+            }
+        } elseif ($name) {
+            if (isset($_SESSION[$name])) {
+                return $_SESSION[$name];
             }
         }
     }
-
+    
     /**
      * Sends email with default parameters.
      *
@@ -333,7 +385,7 @@ class Geo
     public static function email($text = "debug", $subject = "debug", $address = null, $from = null)
     {
         if (!$address) {
-            $address = GEO_DEBUG_EMAIL;
+            $address = GEO_DEFAULT_EMAIL;
         }
         
         if (!$from) {
@@ -567,7 +619,8 @@ class Geo
     /**
      * Direct browser to a different page before any page output
      *
-     * @param string $uri target uri
+     * @param string $uri target uri. If null, the requested uri without any parameters is used. 
+     *     If true the requested uri with any parameters is used.  
      *
      * @return void, ends current script and redirects page
      * @errors Will cause PHP runtime error if called after any character
@@ -575,7 +628,9 @@ class Geo
      */
     public static function redirect($uri = null)
     {
-        if (!strlen($uri)) {
+        if ($uri===true) {
+            $uri = $_SERVER['REQUEST_URI'];
+        } elseif (!strlen($uri)) {
             $url    = parse_url($_SERVER["REQUEST_URI"]);
             $uri = $url["path"];
             //$uri = $_SERVER['REQUEST_URI'];
@@ -707,7 +762,7 @@ class Geo
      *
      * @return mixed Result of test
     */
-    public static function ifVal(&$var, $result1 = true, $result2 = null)
+    public static function ifVal(&$var, &$result1 = true, &$result2 = null)
     {
         if ($var) {
             return $result1;

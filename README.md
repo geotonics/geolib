@@ -1,4 +1,4 @@
-The geolib php framework
+The Geolib PHP framework
 =================================
 
 ####What it is

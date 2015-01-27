@@ -10,7 +10,7 @@
  * @license  GNU Lesser General Public Licence see LICENCE file or http://www.gnu.org/licenses/lgpl.html
  * @link     http://geotonics.com/#geolib
 
-Copyright 2014 Peter Pitchford
+Copyright 2015 Peter Pitchford
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,10 +26,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 // Initialize user added site specific variables
-if (file_exists("config.php")) {
-    include "config.php";
+
+$dirname=dirname(__FILE__);
+if (file_exists($dirname."/config.php")) {
+    include $dirname."/config.php";
 } else {
-    include "defaultConfig.php";
+    include $dirname."/defaultConfig.php";
 }
 
 
@@ -45,3 +47,4 @@ require "functions.php";
 spl_autoload_register('geolib_autoloader');
 GeoDebug::init();
 GeoHtml::setDoctype();
+//geoVar($_SERVER,'server');

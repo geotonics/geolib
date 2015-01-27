@@ -200,17 +200,18 @@ function geoAnchor($name)
  * @return string HTML a tag
 */
 function geoJSLink($text = null, $id = null, $title = null, $class = null, $atts = null, $target = null)
-{
+{  
     if ($atts && !is_array($atts)) {
         $newatts['onclick'] = $atts;
-        $atts               = $newatts;
+        $atts = $newatts;
     }
     if ($class) {
         $class .= " geoJsLink";
     } else {
         $class = "geoJsLink";
     }
-    $link = new GeoLink(null, $text, $class, $title, $target, $id, $atts);
+    
+    $link = new GeoLink(null, $text,$title, $target,$class, $id, $atts);
     return $link->tag();
 }
 
@@ -1091,10 +1092,10 @@ function geoItem($text = null, $class = null, $id = null, $style = null)
  *      If class is an array, each row becomes a class for 1 list item
  * @param string  $id          List id
  * @param integer $cols        Number of columns. Break $lists into one list for each column
+ * @param array   $itemClasses Array of classes for each list item
  * @param string  $style       List Style
  * @param string  $lt          List type (either ul or ol) Default is ul
  * @param array   $itemStyles  Array of styles for each list item
- * @param array   $itemClasses Array of classes for each list item
  * @param array   $listItemIds Array of ids for each list item
  *
  * @return string End tag
@@ -1104,18 +1105,16 @@ function geoList(
     $class = null,
     $id = null,
     $cols = 1,
+    $itemClasses = null,
     $style = null,
     $lt = 'ul',
     $itemStyles = null,
-    $itemClasses = null,
     $listItemIds = null
 ) {
   
-  
-  
     if (!geoIsMultiArr($lists) && is_array($class)) {
         $itemClasses = $class;
-        unset($class);
+        $class="";
     }
     $lists    = geoMultiArr($lists);
     $allLists = '';
@@ -1288,8 +1287,9 @@ function geoEnd($tags = null)
      */
 function geovar($variable, $name = null, $isHtml = null)
 {
+    echo GeoDebug::trace($name, null, true, true);
     echo GeoDebug::vr($variable, $name, $isHtml);
-    echo GeoDebug::trace($name, null, true);
+    
 }
 
 /**
@@ -1352,5 +1352,5 @@ function geoDb(
     $noHighlight = null,
     $always = null
 ) {
-    GeoDebug::db($variable, $name, $addBacktrace, $return, $noHighlight, $always, 1);
+    return GeoDebug::db($variable, $name, $addBacktrace, $return, $noHighlight, $always, 1);
 }

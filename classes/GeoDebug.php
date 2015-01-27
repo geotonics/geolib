@@ -30,19 +30,12 @@ class GeoDebug
      */
     public static function init()
     {
-        // initialize variables if they don't exist.
-        Geo::val($_SESSION['geoIsDebugSession']);
-        Geo::val($_SESSION['geoOrigIsDebugSession']);
-        Geo::val($_SESSION['geoSaveDebugVars']);
-        Geo::val($_SESSION['geoDbOut']);
-        Geo::val($_SESSION["geoDebugErrors"], array());
-        Geo::val($_SESSION["geoDebugVars"], array());
-        
         // Add previously generated error messages to geolib debugging messages.
-        // This is useful if you want to display errors from before gealib is included.
-        // Add previous errors like this: $_SESSION["geoDebugErrors"]["debug name"]="Debug content";
-        if ($_SESSION['geoDebugErrors']) {
-            foreach ($_SESSION['geoDebugErrors'] as $key => $value) {
+        // This is useful if you want to display errors from before ge0lib is included.
+        // Add previous errors like this: $_SESSION["geolib"]["geoDebugErrors"]["debug name"]="Debug content";
+        $geoDebugErrors=Geo::session("geoDebugErrors");
+        if ($geoDebugErrors) {
+            foreach ($geoDebugErrors as $key => $value) {
                 self::db($value, $key);
             }
         }
@@ -58,10 +51,10 @@ class GeoDebug
 
             // collect REQUEST variables for debugging
             $requestVariables=self::req();
+
             if ($requestVariables) {
                 self::db(self::req(), "REQUEST VARIABLES for " . $_SERVER["PHP_SELF"], null, null, true);
             }
-
         }
         
     }
@@ -79,6 +72,7 @@ class GeoDebug
      */
     public static function customError($errno, $errstr, $file, $line)
     {
+    
         
         if (error_reporting() === 0) {
             // continue script execution, skipping standard PHP error handler
@@ -109,6 +103,7 @@ class GeoDebug
             null,
             true
         );
+        
     }
 
     
@@ -121,14 +116,15 @@ class GeoDebug
      * @return void.
      */
     public static function debugging($end = null, $temp = null)
-    {
+    {   
+        $isDebugSession=Geo::session("isDebugSession");
         if ($temp) {
-            $_SESSION['geoOrigIsDebugSession'] = $_SESSION['geoIsDebugSession'];
+            Geo::setSession('origIsDebugSession', $isDebugSession);
         }
         if ($end) {
-            $_SESSION['geoIsDebugSession']=null;
+            Geo::setSession('isDebugSession');
         } else {
-            $_SESSION['geoIsDebugSession'] = true;
+            Geo::setSession('isDebugSession', true);
         }
     }
     
@@ -146,7 +142,9 @@ class GeoDebug
         $name = "Variable",
         $isHtml = null
     ) {
+
         $result='';
+        
         if (is_array($variable) || is_object($variable)) {
             $size = sizeof($variable);
             $variable = "<pre>" . print_r($variable, true) . "</pre>";
@@ -186,10 +184,12 @@ class GeoDebug
         $always = true,
         $traceLevel = 0
     ) {
-    
+
         if (self::isOn() || $always) {
-            if (!$return && $_SESSION['geoDbOut']) {
-                $return=$_SESSION['geoDbOut'];
+            
+            $dbOut=Geo::session('dbOut');
+            if (!$return && $dbOut) {
+                $return=$dbOut;
             }
             
             $backtrace  = debug_backtrace();
@@ -210,12 +210,14 @@ class GeoDebug
             $debug='';
             
             // One line for primary backtrace
+           
             if (!$isTrace) {
-                $debug.="<div><b>".
+                
+                $debug.="<div>".
                     $backtrace[$traceLevel]['file'].
                     ' line '.
                     $backtrace[$traceLevel]['line'] .
-                    "</b></div>";
+                    "</div>";
             }
             
             $debug.= self::vr($variable, $name, $noHighlight);
@@ -233,7 +235,7 @@ class GeoDebug
                 }
             
             }
-            
+
             switch ($return) {
                 case 1:
                      echo $debug;
@@ -245,7 +247,7 @@ class GeoDebug
                     $debug = "<div style='background:#E8E8E8;color:#000000; padding:6px 12px'>".
                     $debug.
                     "</div>";
-                    $_SESSION['geoDebugVars'][] = $debug;
+                    Geo::setSession(null, $debug, 'debugVars');
                     break;
             }
         }
@@ -260,8 +262,8 @@ class GeoDebug
      * @return mixed result value
      */
     public static function isOn($true = true, $false = null)
-    {
-        if ($_SESSION['geoIsDebugSession']) {
+    { 
+        if (Geo::session('isDebugSession')) {
             return $true;
         }
         return $false;
@@ -273,12 +275,15 @@ class GeoDebug
      * @return mixed result value
      */
     public static function reset()
-    {
-        if ($_SESSION['geoOrigIsDebugSession']) {
-            $_SESSION['geoIsDebugSession'] = $_SESSION['geoOrigIsDebugSession'];
+    { 
+        $origIsDebugSession=Geo::session("origIsDebugSession");
+        if ($origIsDebugSession) {
+            Geo::setSession('isDebugSession', $origIsDebugSession);
         }
-        $_SESSION['geoOrigIsDebugSession']=null;
-        $_SESSION['geoSaveDebugVars']=null;
+        Geo::setSession("origIsDebugSession");
+        Geo::setSession("saveDebugVars");
+        Geo::setSession("debugVars");
+        
     }
 
     /**
@@ -292,10 +297,10 @@ class GeoDebug
     public static function saveDebugVars($startFromHere = null)
     {
         if ($startFromHere) {
-            unset($_SESSION['geoDebugVars']);
+            Geo::setSession('debugVars');
         }
         if (self::isOn()) {
-            $_SESSION['geoSaveDebugVars'] = true;
+            Geo::sesSession('saveDebugVars', true);
         }
     }
     
@@ -311,6 +316,10 @@ class GeoDebug
     {
         $result = '';
         if ($_POST) {
+
+
+
+
             $result .= self::vr($_POST, '$_POST');
         }
         
@@ -340,20 +349,19 @@ class GeoDebug
     /**
      * Creates full trace or selected trace level
      *
-     * @param string $name   Identifies trace in debugging output
-     * @param int    $level  Limits trace to a single level of backtrace
-     *                   Default is level 1
-     *                   If true, return entire backtrace
-     * @param bool   $return Determines whether to print out or add to debugging
+     * @param string $name          Identifies trace in debugging output
+     * @param int    $level         Limits trace to a single level of backtrace
+     *     Default is level 1
+     *     If true, return entire backtrace
+     * @param bool   $return        Determines whether to print out or add to debugging
+     * @param bool   $dontTraceFrom Add a one line trace to the location of the calling function. 
      *
      * @return text|array One line, or array if returning entire backtrace
      */
-    public static function trace($name = null, $level = 1, $return = null)
+    public static function trace($name = null, $level = 1, $return = null, $dontTraceFrom=null)
     {
         $backtrace = debug_backtrace();
-        $line=$backtrace[0]['file'] .
-            " line " .
-            $backtrace[0]['line'];
+        
         if (!isset($level)) {
             $level = 1;
         }
@@ -362,16 +370,19 @@ class GeoDebug
             $traceLine = $backtrace;
             $traceLine[0] = $line;
         } else {
-            $line2=$backtrace[$level]['file'].' line ' . $backtrace[$level]['line'] ;
+            $trace="";
             if (isset($backtrace[$level + 1])) {
-                $line2.= "::" . $backtrace[$level + 1]['function']."()";
+                $trace.= $backtrace[$level + 1]['function']."()::";
             }
-            $traceLine = div(
-                array(
-                    $line2,
-                    "Traced from:".$line,
-                )
-            );
+            $trace.=$backtrace[$level]['file'].' line ' . $backtrace[$level]['line'];
+            $traceArr=array($trace);
+            if (!$dontTraceFrom) {
+                $traceArr[]="Traced from:".$backtrace[0]['file'] .
+                " line " .
+                $backtrace[0]['line'];
+            }
+            
+            $traceLine = div($traceArr);
         }
         
         if ($return) {
@@ -383,6 +394,21 @@ class GeoDebug
         }
         
         self::db($traceLine, $name, null, null, true);
+    }
+    
+    /**
+     * Returns a simple one line trace to the next trace level
+     *
+     * @param string $name Optional name to mark the trace with
+     *
+     * @return string one line trace
+     */
+    public static function miniTrace($name="miniTrace")
+    {
+        $backtrace = debug_backtrace();
+        return $name.":".$backtrace[1]['file'] .
+            " line " .
+            $backtrace[1]['line']."<br>";   
     }
 
     /**
@@ -431,7 +457,7 @@ class GeoDebug
     }
     
      /**
-     * Dump debug variables in $_SESSION['geoIsDebugSession']
+     * Dump debug variables in $_SESSION['geolib']['isDebugSession']
      *
      * @param int  $height     Layout height
      * @param int  $width      Layout width
@@ -448,10 +474,13 @@ class GeoDebug
         $dontDelete = null,
         $style = ''
     ) {
+       
         //geo::trace(true);
-        if ($_SESSION['geoIsDebugSession']) {
+        if (Geo::session('isDebugSession')) {
             $result='';
-            if (Geo::val($_SESSION['geoDebugVars'])) {
+            
+            $debugVars=Geo::session('debugVars');
+            if ($debugVars) {
                 if (!$style) {
                     $style = "margin:1em 0; overflow:auto;clear:both;";
                     if ($height) {
@@ -464,29 +493,33 @@ class GeoDebug
                             $style .= ' width:' . $width . "px;";
                         }
                     }
-                }
+                } 
+                
                 $result = div(
                     "\n      ".
                     // Javascript link to close debug area
+                   
                     geoJsLink(
-                        'X',
+                        geoImg(GEO_URI."images/redx.png"),
                         null,
                         'Close Debug Area',
-                        'emptyParent floatRight',
+                        "closeDebugArea",
                         array(
+                            "style"=>"float:right;cursor:pointer;",
                             "onclick" => "this.parentNode.style.display = 'none';"
                         )
-                    )."\n      ".div($_SESSION['geoDebugVars'], 'geodb', null, 'margin:.5em;'),
-                    'geoDebugVars',
+                    )."\n      ".div($debugVars, 'geodb', null, 'margin:.5em;'),
+                    'debugVars',
                     null,
                     "text-align:left; background:#fff; border:solid 1px #C8C8C8; z-index:99;". $style
-                );
+                );  
             }
             
-            if (!$dontDelete && !$_SESSION["geoSaveDebugVars"]) {
-                unset($_SESSION['geoDebugVars']);
-                 unset($_SESSION['geoDebugErrors']);
+            if (!$dontDelete && !Geo::session("saveDebugVars")) {
+                Geo::setSession('debugVars');
+                Geo::setSession('geoDebugErrors');
             }
+            
             return $result;
         }
     }

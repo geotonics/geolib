@@ -15,20 +15,20 @@ require_once "geolib.php";
 $title="GeoManager";
     $list=array(geoLink("../", "Home"));
     $body=h3($title);
-    $body.=geoList($list, 'glist');
+   
 
 if (isset($_POST['cancelDebuggingAuthorization'])) {
     GeoDebug::debugging(true);
-    unset($_SESSION['geoDebugIsAuthorized']);
+    Geo::setSession('debugIsAuthorized');
 }
     
 if (isset($_POST['geoDebugPassword'])) {
     if ($_POST['geoDebugPassword']==GEO_DEBUG_PASSWORD) {
-        $_SESSION['geoDebugIsAuthorized']=true;
+        Geo::setSession('debugIsAuthorized', true);
     }
 }
 
-if (isset($_SESSION['geoDebugIsAuthorized'])) {
+if (Geo::session('debugIsAuthorized')) {
     $action=Geo::val($_GET["action"]);
     
     if (isset($_GET["action"])) {
@@ -38,44 +38,47 @@ if (isset($_SESSION['geoDebugIsAuthorized'])) {
         switch($actionArr[0]){
             case "dbOut":
                 if ($actionArr[1]) {
-                    Geo::setSession("geoDbOut", $actionArr[1]);
+                    Geo::setSession("dbOut", $actionArr[1]);
                 } else {
-                    Geo::setSession("geoDbOut");
+                    Geo::setSession("dbOut");
                 }
                 break;
             case "end":
                 Geo::setSession($actionArr[1]);
-                Geo::setSession("geoDbOut");
+                Geo::setSession("dbOut");
                 break;
             case "start":
                 Geo::setSession($actionArr[1], true);
                 break;
         }
+        Geo::redirect();
     }
+    $itemClasses["link_".Geo::session("dbOut")]="selectedLink";
     
     $sLink=new GeoLink();
     $sLink->setAtt("target", "_self");
     if (GeoDebug::isOn()) {
-        $options[]=div("Debugging Session is ON", "redbold");
-        $options[]=$sLink->tag("?action=start_geoIsDebugSession", "ReStart Debug Session");
-        $options[]=$sLink->tag("?action=end_geoIsDebugSession", "End Debug Session");
-        $dbOptions[]=$sLink->tag("?action=dbOut_0", "Save Debug For End");
-        $dbOptions[1]=$sLink->tag("?action=dbOut_1", "Echo debug variables");
-        $dbOptions[2]=$sLink->tag("?action=dbOut_2", "Return debug variables");
-      
+        $dbOut=Geo::session("dbOut"); 
+        $options[]=span("Debugging Session is ON",'redbold');
+        $options[]=$sLink->tag("?action=start_isDebugSession", "ReStart Debug Session");
+        $options[]=$sLink->tag("?action=end_isDebugSession", "End Debug Session");
+        $dbOptions["link_"]=$sLink->tag("?action=dbOut_0", "Save Debug For End");
+        $dbOptions["link_1"]=$sLink->tag("?action=dbOut_1", "Echo debug variables");
+        $dbOptions["link_2"]=$sLink->tag("?action=dbOut_2", "Return debug variables");
+       
     } else {
-        $options[]=div("Debugging Session is OFF", "redbold");
-        $options[]=$sLink->tag("?action=start_geoIsDebugSession", "Start Debug Session");
+        $options[]=span("Debugging Session is OFF","redbold");
+        $options[]=$sLink->tag("?action=start_isDebugSession", "Start Debug Session");
     }
-    $body.=Geo::ifVal($_SESSION['geoMessages'], div($_SESSION["geoMessages"])).
+    $body.=
     div(
-        geoList($options, "vlist").
-        Geo::ifVal($dbOptions, geoList($dbOptions, 'vlist')),
+        geoList($list).
+        geoList($options).
+        geoIf($dbOptions, geoList($dbOptions, $itemClasses)),
         "managerLists"
     );
-    unset($_SESSION['geoMessages']);
     
-    if ($_SESSION['geoDebugIsAuthorized']) {
+    if (Geo::session('debugIsAuthorized')) {
         $body.=geoForm(geoSubmit("Cancel Debugging Authorization", 'cancelDebuggingAuthorization'));
     }
     
@@ -85,5 +88,5 @@ if (isset($_SESSION['geoDebugIsAuthorized'])) {
 }
 
 
-$head=new GeoHead($title, "/geolib.css");
-echo geoHtml(div($body, "page"), $head);
+$head=new GeoHead($title, "geolib.css");
+echo geoHtml(div($body, "geoLibPage"), $head);

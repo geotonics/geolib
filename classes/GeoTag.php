@@ -56,9 +56,13 @@ class GeoTag
      */
     public function setAtt($att, $value = null)
     {
-        // if (isset($value)) {
+        // Checking for the value insures that individually set atts do not override
+        // atts which have already been set by $atts
+        
+        if (isset($value)) {
+            
             $this->atts[$att] = $value;
-        //}
+        }
     }
     
     /**

@@ -63,6 +63,7 @@ class GeoLink extends GeoTag
             $newatts[$attsarr[0]] = $attsarr[1];
             $atts                 = $newatts;
         }
+        
         $this->init('a', $text, $class, $id, $style, $atts);
         $this->setTitle($title);
         
