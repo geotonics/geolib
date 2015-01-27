@@ -1,0 +1,23 @@
+.selectedLink a{
+    font-weight:bold;
+    background:silver;
+}
+.redbold{
+    font-weight:bold;
+    color:red;
+}
+
+.geoLibPage{
+    margin:0 1em;
+    font-family:Verdana, Geneva, sans-serif;
+}
+
+.managerLists ul li{
+    margin:0 0 .2em 0;
+    list-style:none;
+}
+
+.managerLists ul{
+    margin:0 0 1em 0; 
+    padding:0;
+}

@@ -21,7 +21,7 @@ define("GEO_DEFAULT_FROM", "");
 define("GEO_IMAGE_PATH", "");
 define("GEO_DEBUG_PASSWORD", "");
 define("GEO_INSTANCE", "geolib");
-echo('default');
+
 /*
     GEO_BASE can be used for an alternative path to images or 
     other files and can be defined before geolib is included. 
