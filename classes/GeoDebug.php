@@ -300,7 +300,7 @@ class GeoDebug
             Geo::setSession('debugVars');
         }
         if (self::isOn()) {
-            Geo::sesSession('saveDebugVars', true);
+            Geo::setSession('saveDebugVars', true);
         }
     }
     
