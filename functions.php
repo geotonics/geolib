@@ -1285,7 +1285,7 @@ function geoEnd($tags = null)
      *
      * @return void
      */
-function geovar($variable, $name = null, $isHtml = null)
+function geovar($variable, $name = "Variable", $isHtml = null)
 {
     echo GeoDebug::trace($name, null, true, true);
     echo GeoDebug::vr($variable, $name, $isHtml);
