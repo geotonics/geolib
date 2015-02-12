@@ -1177,7 +1177,7 @@ function geoMultiArr($array, $name = "0")
  * @param int    $cellspacing Cellspacing for all table cells
  * @param int    $cellpadding Cellpadding for all table cells
  *
- * @return object GeoCell Object
+ * @return object GeoTable Object
 */
 function geoTable(
     $rows,
