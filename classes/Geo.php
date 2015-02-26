@@ -291,7 +291,9 @@ class Geo
     public static function exp($val, $index = 1, $sep = "_")
     {
         $arr = explode($sep, $val);
-        return $arr[$index];
+        if(isset($arr[$index])){
+            return $arr[$index];
+        }
     }
 
     /**

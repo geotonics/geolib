@@ -757,7 +757,16 @@ function geoInput($type = 'text', $name = null, $value = null, $atts = null, $id
     } elseif ($id === true) {
         $id = null;
     }
-   
+    
+    // If value is true, use $_POST[$name]
+    if($value===true){
+        if(isset($_POST[$name])){
+            $value=$_POST[$name];
+        } else {
+            $value=null;
+        }
+    }
+    
     $atts['name']  = $name;
     $atts['type']  = $type;
     $atts['value'] = $value;

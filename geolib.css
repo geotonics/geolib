@@ -21,3 +21,16 @@
     margin:0 0 1em 0; 
     padding:0;
 }
+
+.cssTable {
+display:table;
+border-collapse:collapse;
+}
+
+.cssTable>div {
+display:table-row;
+}
+
+.cssTable>div>div {
+display:table-cell;
+}
