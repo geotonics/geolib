@@ -21,6 +21,7 @@ define("GEO_DEFAULT_FROM", "");
 define("GEO_IMAGE_PATH", "");
 define("GEO_DEBUG_PASSWORD", "");
 define("GEO_INSTANCE", "geolib");
+define("GEO_URI","/geolib/");
 
 /*
     GEO_BASE can be used for an alternative path to images or 

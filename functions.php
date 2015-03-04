@@ -758,6 +758,7 @@ function geoInput($type = 'text', $name = null, $value = null, $atts = null, $id
         $id = null;
     }
     
+    /*
     // If value is true, use $_POST[$name]
     if($value===true){
         if(isset($_POST[$name])){
@@ -766,6 +767,7 @@ function geoInput($type = 'text', $name = null, $value = null, $atts = null, $id
             $value=null;
         }
     }
+    */
     
     $atts['name']  = $name;
     $atts['type']  = $type;
