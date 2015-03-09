@@ -119,7 +119,7 @@ class GeoSelect extends GeoTag
             $this->selected = $selected['id'];
         } elseif (isset($selected)) {
             $this->selected = $selected;
-        } elseif (isset($_POST[$this->atts['name']])) {
+        } elseif (isset($this->atts['name']) && isset($_POST[$this->atts['name']])) {
             $this->selected = $_POST[$this->atts['name']];
         }
     }

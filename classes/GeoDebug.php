@@ -30,10 +30,16 @@ class GeoDebug
      */
     public static function init()
     {
+        
+        if (!Geo::session("saveDebugVars")) {
+           Geo::setSession('debugVars');
+        }
+        
         // Add previously generated error messages to geolib debugging messages.
         // This is useful if you want to display errors from before ge0lib is included.
         // Add previous errors like this: $_SESSION["geolib"]["geoDebugErrors"]["debug name"]="Debug content";
         $geoDebugErrors=Geo::session("geoDebugErrors");
+
         if ($geoDebugErrors) {
             foreach ($geoDebugErrors as $key => $value) {
                 self::db($value, $key);
@@ -316,10 +322,6 @@ class GeoDebug
     {
         $result = '';
         if ($_POST) {
-
-
-
-
             $result .= self::vr($_POST, '$_POST');
         }
         
