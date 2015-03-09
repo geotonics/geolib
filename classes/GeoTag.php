@@ -60,7 +60,6 @@ class GeoTag
         // atts which have already been set by $atts
         
         if (isset($value)) {
-            
             $this->atts[$att] = $value;
         }
     }

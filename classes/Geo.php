@@ -291,7 +291,7 @@ class Geo
     public static function exp($val, $index = 1, $sep = "_")
     {
         $arr = explode($sep, $val);
-        if(isset($arr[$index])){
+        if (isset($arr[$index])) {
             return $arr[$index];
         }
     }
@@ -306,10 +306,10 @@ class Geo
      *
      * @return void
      */
-    public static function setSession($name, $value = null,$subArrayName=null, $arrayName = GEO_INSTANCE)
-    {   
+    public static function setSession($name, $value = null, $subArrayName = null, $arrayName = GEO_INSTANCE)
+    {
         if ($arrayName) {
-            if ($subArrayName) {  
+            if ($subArrayName) {
                 if ($name) {
                     if ($value) {
                         $_SESSION[$arrayName][$subArrayName][$name]=$value;
@@ -323,7 +323,7 @@ class Geo
                         unset($_SESSION[$arrayName][$subArrayName]);
                     }
                 }
-            } else {  
+            } else {
                 if ($name) {
                     if ($value) {
                         $_SESSION[$arrayName][$name]=$value;
@@ -337,7 +337,7 @@ class Geo
                         unset($_SESSION[$arrayName]);
                     }
                 }
-            } 
+            }
         } elseif ($name) {
             if ($value) {
                 $_SESSION[$name]=$value;
@@ -345,7 +345,7 @@ class Geo
                 unset($_SESSION[$name]);
             }
         }
-    }   
+    }
     
     /**
      * Gets session variables.
@@ -356,7 +356,7 @@ class Geo
      *
      * @return void
      */
-    public static function session($name, $subArrayName=null, $arrayName=GEO_INSTANCE)
+    public static function session($name, $subArrayName = null, $arrayName = GEO_INSTANCE)
     {
        
         if ($arrayName) {
@@ -621,8 +621,8 @@ class Geo
     /**
      * Direct browser to a different page before any page output
      *
-     * @param string $uri target uri. If null, the requested uri without any parameters is used. 
-     *     If true the requested uri with any parameters is used.  
+     * @param string $uri target uri. If null, the requested uri without any parameters is used.
+     *     If true the requested uri with any parameters is used.
      *
      * @return void, ends current script and redirects page
      * @errors Will cause PHP runtime error if called after any character

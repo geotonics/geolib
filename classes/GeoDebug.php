@@ -122,7 +122,7 @@ class GeoDebug
      * @return void.
      */
     public static function debugging($end = null, $temp = null)
-    {   
+    {
         $isDebugSession=Geo::session("isDebugSession");
         if ($temp) {
             Geo::setSession('origIsDebugSession', $isDebugSession);
@@ -192,7 +192,6 @@ class GeoDebug
     ) {
 
         if (self::isOn() || $always) {
-            
             $dbOut=Geo::session('dbOut');
             if (!$return && $dbOut) {
                 $return=$dbOut;
@@ -218,7 +217,6 @@ class GeoDebug
             // One line for primary backtrace
            
             if (!$isTrace) {
-                
                 $debug.="<div>".
                     $backtrace[$traceLevel]['file'].
                     ' line '.
@@ -268,7 +266,7 @@ class GeoDebug
      * @return mixed result value
      */
     public static function isOn($true = true, $false = null)
-    { 
+    {
         if (Geo::session('isDebugSession')) {
             return $true;
         }
@@ -281,7 +279,7 @@ class GeoDebug
      * @return mixed result value
      */
     public static function reset()
-    { 
+    {
         $origIsDebugSession=Geo::session("origIsDebugSession");
         if ($origIsDebugSession) {
             Geo::setSession('isDebugSession', $origIsDebugSession);
@@ -356,11 +354,11 @@ class GeoDebug
      *     Default is level 1
      *     If true, return entire backtrace
      * @param bool   $return        Determines whether to print out or add to debugging
-     * @param bool   $dontTraceFrom Add a one line trace to the location of the calling function. 
+     * @param bool   $dontTraceFrom Add a one line trace to the location of the calling function.
      *
      * @return text|array One line, or array if returning entire backtrace
      */
-    public static function trace($name = null, $level = 1, $return = null, $dontTraceFrom=null)
+    public static function trace($name = null, $level = 1, $return = null, $dontTraceFrom = null)
     {
         $backtrace = debug_backtrace();
         
@@ -405,12 +403,12 @@ class GeoDebug
      *
      * @return string one line trace
      */
-    public static function miniTrace($name="miniTrace")
+    public static function miniTrace($name = "miniTrace")
     {
         $backtrace = debug_backtrace();
         return $name.":".$backtrace[1]['file'] .
             " line " .
-            $backtrace[1]['line']."<br>";   
+            $backtrace[1]['line']."<br>";
     }
 
     /**
@@ -495,12 +493,11 @@ class GeoDebug
                             $style .= ' width:' . $width . "px;";
                         }
                     }
-                } 
+                }
                 
                 $result = div(
                     "\n      ".
                     // Javascript link to close debug area
-                   
                     geoJsLink(
                         geoImg(GEO_URI."images/redx.png"),
                         null,
@@ -514,7 +511,7 @@ class GeoDebug
                     'debugVars',
                     null,
                     "text-align:left; background:#fff; border:solid 1px #C8C8C8; z-index:99;". $style
-                );  
+                );
             }
             
             if (!$dontDelete && !Geo::session("saveDebugVars")) {

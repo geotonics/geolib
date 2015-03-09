@@ -200,7 +200,7 @@ function geoAnchor($name)
  * @return string HTML a tag
 */
 function geoJSLink($text = null, $id = null, $title = null, $class = null, $atts = null, $target = null)
-{  
+{
     if ($atts && !is_array($atts)) {
         $newatts['onclick'] = $atts;
         $atts = $newatts;
@@ -211,7 +211,7 @@ function geoJSLink($text = null, $id = null, $title = null, $class = null, $atts
         $class = "geoJsLink";
     }
     
-    $link = new GeoLink(null, $text,$title, $target,$class, $id, $atts);
+    $link = new GeoLink(null, $text, $title, $target, $class, $id, $atts);
     return $link->tag();
 }
 
