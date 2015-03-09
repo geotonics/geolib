@@ -110,9 +110,8 @@ class GeoHtml extends GeoTag
      * @return Doctype and HTML tags
      */
     public function tag($tidyTag = null)
-    { 
+    {
         if (GeoDebug::isOn()) {
-            
             $this->text = str_replace("</body>", GeoDebug::vars()."</body>", $this->text);
             
             if (!$tidyTag && $tidyTag !== false) {

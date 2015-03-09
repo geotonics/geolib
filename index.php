@@ -58,8 +58,8 @@ if (Geo::session('debugIsAuthorized')) {
     $sLink=new GeoLink();
     $sLink->setAtt("target", "_self");
     if (GeoDebug::isOn()) {
-        $dbOut=Geo::session("dbOut"); 
-        $options[]=span("Debugging Session is ON",'redbold');
+        $dbOut=Geo::session("dbOut");
+        $options[]=span("Debugging Session is ON", 'redbold');
         $options[]=$sLink->tag("?action=start_isDebugSession", "ReStart Debug Session");
         $options[]=$sLink->tag("?action=end_isDebugSession", "End Debug Session");
         $dbOptions["link_"]=$sLink->tag("?action=dbOut_0", "Save Debug For End");
@@ -67,7 +67,7 @@ if (Geo::session('debugIsAuthorized')) {
         $dbOptions["link_2"]=$sLink->tag("?action=dbOut_2", "Return debug variables");
        
     } else {
-        $options[]=span("Debugging Session is OFF","redbold");
+        $options[]=span("Debugging Session is OFF", "redbold");
         $options[]=$sLink->tag("?action=start_isDebugSession", "Start Debug Session");
     }
     $body.=
