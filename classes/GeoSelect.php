@@ -36,8 +36,8 @@ class GeoSelect extends GeoTag
      *
      * @param string            $name     Name of select tag
      * @param array             $options  1 or 2 dimensional array of options
-     *     If 1 each row is  $name=>$value
-     *     If 2 each array is 0=>name 1=>value 2=>class
+     *     If 1 dimensional each row is  $name=>$value
+     *     If 2 dimensional each array is 0=>name 1=>value 2=>class
      * @param string            $selected name of selected option
      * @param string            $id       id of select tag
      * @param array|string|bool $atts     attributes of select tag

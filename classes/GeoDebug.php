@@ -480,6 +480,7 @@ class GeoDebug
             $result='';
             
             $debugVars=Geo::session('debugVars');
+            
             if ($debugVars) {
                 if (!$style) {
                     $style = "margin:1em 0; overflow:auto;clear:both;";
@@ -507,10 +508,11 @@ class GeoDebug
                             "style"=>"float:right;cursor:pointer;",
                             "onclick" => "this.parentNode.style.display = 'none';"
                         )
-                    )."\n      ".div($debugVars, 'geodb', null, 'margin:.5em;'),
-                    'debugVars',
+                    )."\n      ".div($debugVars, null, null, null, array("style"=>'margin:.5em;',"class"=>"geodb")),
                     null,
-                    "text-align:left; background:#fff; border:solid 1px #C8C8C8; z-index:99;". $style
+                    null,
+                    null,
+                    array("style"=>"text-align:left; background:#fff; border:solid 1px #C8C8C8; z-index:99;". $style,"class"=>"debugVars")
                 );
             }
             

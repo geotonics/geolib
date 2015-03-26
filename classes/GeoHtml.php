@@ -127,7 +127,7 @@ class GeoHtml extends GeoTag
                 $this->text
             );
         }
-        
+        Geo::reset();
         GeoDebug::reset();
         return $this->doctype . "\n" . parent::baseTag($this->start);
     }

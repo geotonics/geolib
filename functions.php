@@ -211,6 +211,8 @@ function geoJSLink($text = null, $id = null, $title = null, $class = null, $atts
         $class = "geoJsLink";
     }
     
+    $atts["class"]=$class;
+    $class=null;
     $link = new GeoLink(null, $text, $title, $target, $class, $id, $atts);
     return $link->tag();
 }
