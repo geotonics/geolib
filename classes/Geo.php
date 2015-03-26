@@ -35,7 +35,8 @@ class Geo
      * @return bool
     */
     public static function isValidEmail($email)
-    {   $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+    {  
+        $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
         return preg_match($regex, $email);
     }
     
@@ -638,7 +639,7 @@ class Geo
             //$uri = $_SERVER['REQUEST_URI'];
         }
         // Redirect browser to $uri page
-        header("Location: " . $uri);
+        header("Location: " . $uri."?asdf");
         
         //this is executed only if header fails and throws warning
         echo "Redirect to $uri ($uri) failed";
@@ -718,7 +719,7 @@ class Geo
         $columnClasses = null,
         $tableClass = "cssTable"
     ) {
-        if (isset($rows)) {
+        if (isset($rows) && $rows) {
             $classes   = Geo::arr($classes, true);
             
             if ($tableClass) {
@@ -871,5 +872,15 @@ class Geo
             $input.=div($missing[$prefixName], 'errorText');
         }
         return $input;
+    }
+    
+    public static function isForEmail($isForEmail=true){
+        
+        self::setSession("isForEmail",$isForEmail,"page");
+    }
+    
+    public static function reset(){
+        
+        self::setSession("page");    
     }
 }
