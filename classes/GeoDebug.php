@@ -32,7 +32,7 @@ class GeoDebug
     {
         
         if (!Geo::session("saveDebugVars")) {
-           Geo::setSession('debugVars');
+            Geo::setSession('debugVars');
         }
         
         // Add previously generated error messages to geolib debugging messages.

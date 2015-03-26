@@ -272,7 +272,7 @@ function geoSelect(
 /**
  * Create an span div tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of span tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
@@ -305,7 +305,7 @@ function div($text, $class = null, $id = null, $style = null, $atts = null)
 /**
  * Create an HTML p tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of p tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
@@ -321,7 +321,7 @@ function p($text, $class = null, $id = null, $style = null, $atts = null)
 /**
  * Create an HTML b tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of b tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
@@ -338,7 +338,7 @@ function b($text, $class = null, $id = null, $style = null, $atts = null)
 /**
  * Create an HTML i tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of i tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
@@ -353,7 +353,7 @@ function i($text, $class = null, $id = null, $style = null, $atts = null)
 /**
  * Create an HTML h1 tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of h1 tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
@@ -369,7 +369,7 @@ function h1($text, $class = null, $id = null, $style = null, $atts = null)
 /**
  * Create an HTML h2 tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of h2 tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
@@ -385,7 +385,7 @@ function h2($text, $class = null, $id = null, $style = null, $atts = null)
 /**
  * Create an HTML h3 tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of h3 tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
@@ -401,7 +401,7 @@ function h3($text, $class = null, $id = null, $style = null, $atts = null)
 /**
  * Create an HTML h4 tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of h4 tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
