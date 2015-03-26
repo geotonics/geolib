@@ -24,15 +24,21 @@
 */
 class GeoHtml extends GeoTag
 {
+    private $sessionName;
+    private $state;
+   
     /**
      * Constructor for GeoHtml Class
      *
-     * @param string|object $body  html body tag or GeoBody object
-     * @param string|object $head  A GeoHead object, usually from geoHead(). A string for the title can be used
-     *                                 if no other head attributes are required.
-     * @param bool          $start If true, tag is the intial tag and the content. Leave out end tag.
+     * @param string|object $body            Html body tag or GeoBody object
+     * @param string|object $head            A GeoHead object, usually from geoHead().
+     *                                           A string for the title can be used
+     *                                           if no other head attributes are required.
+     * @param string        $userSessionName Name of user session.
+     * @param string        $doctype         Document type
+     * @param bool          $start           If true, tag is the intial tag and the content. Leave out end tag.
      */
-    public function __construct($body = null, $head = null, $start = null)
+    public function __construct($body = null, $head = null, $userSessionName = null, $doctype = null, $start = null)
     {
         if (isset($head)) {
             if (!is_object($head)) {
@@ -46,12 +52,13 @@ class GeoHtml extends GeoTag
         if (!is_object($body)) {
             $body = geoBody($body);
         }
+        $this->userSessionName=$userSessionName;
         
         $this->start = $start;
         
         $body->text .= $head->scripts();
         header("Content-Type: text/html; charset=utf-8'");
-        $this->setDoctypeTag();
+        $this->setDoctypeTag($doctype);
         parent::__construct("html", $head->tag() . $body->tag(null, $start));
     }
     
@@ -62,8 +69,12 @@ class GeoHtml extends GeoTag
      *
      * @return void
      */
-    public static function setDoctype($doctype = "HTML 5")
+    public static function setDoctype($doctype = null)
     {
+        if (!$doctype) {
+            $doctype="HTML 5";
+        }
+        
         define("GEO_DOCTYPE", $doctype);
         define("GEO_IS_XHTML", geoIf($doctype == "XHTML 1.0 Strict", true, false));
     }
@@ -112,7 +123,11 @@ class GeoHtml extends GeoTag
     public function tag($tidyTag = null)
     {
         if (GeoDebug::isOn()) {
-            $this->text = str_replace("</body>", GeoDebug::vars()."</body>", $this->text);
+            $this->text = str_replace(
+                "</body>",
+                GeoDebug::vars(null, null, null, null, $this->userSessionName)."</body>",
+                $this->text
+            );
             
             if (!$tidyTag && $tidyTag !== false) {
                 $this->text = "\n".Geo::tidy($this->text)."\n";
@@ -127,7 +142,7 @@ class GeoHtml extends GeoTag
                 $this->text
             );
         }
-        Geo::reset();
+        
         GeoDebug::reset();
         return $this->doctype . "\n" . parent::baseTag($this->start);
     }

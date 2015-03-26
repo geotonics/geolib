@@ -35,7 +35,7 @@ class Geo
      * @return bool
     */
     public static function isValidEmail($email)
-    {  
+    {
         $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
         return preg_match($regex, $email);
     }
@@ -300,15 +300,21 @@ class Geo
     /**
      * Sets session variables. Optionally add name of session array
      *
-     * @param string $name         Name of session variable
-     * @param string $value        Value of session variable
-     * @param string $subArrayName Name of session sub array.
-     * @param string $arrayName    Name of session array. Default is "geolib"
+     * @param string $name            Name of session variable
+     * @param string $value           Value of session variable
+     * @param string $subArrayName    Name of session sub array.
+     * @param string $userSessionName Name of user session
+     * @param string $arrayName       Name of session array. Default is "geolib"
      *
      * @return void
      */
-    public static function setSession($name, $value = null, $subArrayName = null, $arrayName = GEO_INSTANCE)
-    {
+    public static function setSession(
+        $name,
+        $value = null,
+        $subArrayName = null,
+        $userSessionName = null,
+        $arrayName = GEO_INSTANCE
+    ) {
         if ($arrayName) {
             if ($subArrayName) {
                 if ($name) {
@@ -319,7 +325,11 @@ class Geo
                     }
                 } else {
                     if ($value) {
-                        $_SESSION[$arrayName][$subArrayName][]=$value;
+                        if ($userSessionName) {
+                            $_SESSION[$arrayName][$subArrayName][$userSessionName][]=$value;
+                        } else {
+                             $_SESSION[$arrayName][$subArrayName][]=$value;
+                        }
                     } else {
                         unset($_SESSION[$arrayName][$subArrayName]);
                     }
@@ -872,15 +882,5 @@ class Geo
             $input.=div($missing[$prefixName], 'errorText');
         }
         return $input;
-    }
-    
-    public static function isForEmail($isForEmail=true){
-        
-        self::setSession("isForEmail",$isForEmail,"page");
-    }
-    
-    public static function reset(){
-        
-        self::setSession("page");    
     }
 }

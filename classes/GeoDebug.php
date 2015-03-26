@@ -170,14 +170,15 @@ class GeoDebug
      /**
      * Adds content to debugging array
      *
-     * @param mixed  $variable     Variable being debugged
-     * @param string $name         Name used for displaying debug variable
-     * @param bool   $addBacktrace Determines whether to add backtrace to debug display
-     * @param bool   $return       Determines whether debugging content is displayed
-     *                                 or saved. Default is saved.
-     * @param bool   $noHighlight  Display strings as html. Default displays html tags.
-     * @param bool   $always       Always debug, even when not in debugging mode
-     * @param int    $traceLevel   Indicates which part of the backtrace array to display
+     * @param mixed  $variable        Variable being debugged
+     * @param string $name            Name used for displaying debug variable
+     * @param bool   $addBacktrace    Determines whether to add backtrace to debug display
+     * @param bool   $return          Determines whether debugging content is displayed
+     *                                    or saved. Default is saved.
+     * @param bool   $noHighlight     Display strings as html. Default displays html tags.
+     * @param bool   $always          Always debug, even when not in debugging mode
+     * @param int    $traceLevel      Indicates which part of the backtrace array to display
+     * @param text   $userSessionName User session name
      *
      * @return html debug content is formatted with html
      */
@@ -188,7 +189,8 @@ class GeoDebug
         $return = null,
         $noHighlight = null,
         $always = true,
-        $traceLevel = 0
+        $traceLevel = 0,
+        $userSessionName = "default"
     ) {
 
         if (self::isOn() || $always) {
@@ -251,7 +253,7 @@ class GeoDebug
                     $debug = "<div style='background:#E8E8E8;color:#000000; padding:6px 12px'>".
                     $debug.
                     "</div>";
-                    Geo::setSession(null, $debug, 'debugVars');
+                    Geo::setSession(null, $debug, 'debugVars', $userSessionName);
                     break;
             }
         }
@@ -459,10 +461,11 @@ class GeoDebug
      /**
      * Dump debug variables in $_SESSION['geolib']['isDebugSession']
      *
-     * @param int  $height     Layout height
-     * @param int  $width      Layout width
-     * @param bool $dontDelete Don't delete debug variables
-     * @param text $style      Added styles
+     * @param int  $height          Layout height
+     * @param int  $width           Layout width
+     * @param bool $dontDelete      Don't delete debug variables
+     * @param text $style           Added styles
+     * @param test $userSessionName Name of user session
      *
      * @return html
      *
@@ -472,15 +475,21 @@ class GeoDebug
         $height = null,
         $width = null,
         $dontDelete = null,
-        $style = ''
+        $style = '',
+        $userSessionName = null
     ) {
        
         //geo::trace(true);
         if (Geo::session('isDebugSession')) {
             $result='';
+            if (!$userSessionName) {
+                $userSessionName="default";
+            }
             
-            $debugVars=Geo::session('debugVars');
+            //geoVar($_SESSION,'thesession');
+            $debugVars=Geo::session($userSessionName, 'debugVars');
             
+            //geoVar($debugVars,'debugVars');
             if ($debugVars) {
                 if (!$style) {
                     $style = "margin:1em 0; overflow:auto;clear:both;";
@@ -512,7 +521,10 @@ class GeoDebug
                     null,
                     null,
                     null,
-                    array("style"=>"text-align:left; background:#fff; border:solid 1px #C8C8C8; z-index:99;". $style,"class"=>"debugVars")
+                    array(
+                        "style"=>"text-align:left; background:#fff; border:solid 1px #C8C8C8; z-index:99;". $style,
+                        "class"=>"debugVars"
+                    )
                 );
             }
             

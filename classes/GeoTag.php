@@ -92,23 +92,7 @@ class GeoTag
      * @return void
      */
     protected function init($tag, $text = null, $class = null, $id = null, $style = null, $atts = null)
-    {   
-        if(Geo::session("isForEmail","page")){
-            
-            $margin = $style;
-            $style = $class;
-            $class = null;
-            
-            if($id){
-              $style="font-size:".$id.";".$style;
-              $id=null;
-            }
-            
-            if($margin || $margin===0){
-              $style="margin:".$margin.";".$style;
-            }
-        }
-
+    {
         $inlines = array(
             'img',
             'link',

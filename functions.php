@@ -48,19 +48,21 @@ function geoTag($tag, $text, $class = null, $id = null, $style = null, $atts = n
 /**
  * Create HTML tag
  *
- * @param string|object $body    HTML body tag or GeoBody object
- * @param string|object $head    A GeoHead object, usually from geoHead(). A string for the title can be used
- *                                   if no other head attributes are required.
- * @param bool          $tidyTag Determines whether to tidy up html with proper tabs
- * @param bool          $start   A flag to indicte that this tag should only return the start tag and the content.
- *                                   This allows direct output of any other content before the end tag.
- * @param string        $doctype Doctype for this document
+ * @param string|object $body            HTML body tag or GeoBody object
+ * @param string|object $head            A GeoHead object, usually from geoHead(). A string for the title can be used
+ *                                           if no other head attributes are required.
+ * @param string        $userSessionName Name of user session
+ * @param bool          $tidyTag         Determines whether to tidy up html with proper tabs
+ * @param bool          $start           A flag to indicte that this tag should only return
+ *                                           the start tag and the content.
+ *                                       This allows direct output of any other content before the end tag.
+ * @param string        $doctype         Doctype for this document
  *
  * @return string HTML document
 */
-function geoHtml($body = null, $head = null, $tidyTag = null, $start = null, $doctype = null)
+function geoHtml($body = null, $head = null, $userSessionName = null, $tidyTag = null, $start = null, $doctype = null)
 {
-    $page = new GeoHtml($body, $head, $start, $doctype);
+    $page = new GeoHtml($body, $head, $userSessionName, $doctype, $start);
     return $page->tag($tidyTag);
 }
 
@@ -291,7 +293,7 @@ function span($text, $class = null, $id = null, $style = null, $atts = null)
 /**
  * Create an HTML div tag.
  *
- * @param string $text  Content of pre tag
+ * @param string $text  Content of div tag
  * @param string $class Class attribute
  * @param string $id    Id attribute
  * @param string $style Style attribute
@@ -301,8 +303,58 @@ function span($text, $class = null, $id = null, $style = null, $atts = null)
  */
 function div($text, $class = null, $id = null, $style = null, $atts = null)
 {
+    
     return geoTag('div', $text, $class, $id, $style, $atts);
 }
+
+/**
+ * Create an inline HTML div tag.
+ *
+ * @param string $text     Content of div tag
+ * @param string $style    Style attribute
+ * @param string $fontsize Font size
+ * @param string $margin   Margin
+ * @param array  $atts     Any other attributes
+ *
+ * @return string HTML div tag
+ */
+function idiv($text, $style = null, $fontsize = null, $margin = null, $atts = null)
+{
+    if ($fontsize) {
+         $style="font-size:".$fontsize.";".$style;
+    }
+            
+    if ($margin || $margin===0) {
+        $style="margin:".$margin.";".$style;
+    }
+    
+    return geoTag('div', $text, null, null, $style, $atts);
+}
+
+/**
+ * Create an inline HTML span tag.
+ *
+ * @param string $text     Content of span tag
+ * @param string $style    Style attribute
+ * @param string $fontsize Font size
+ * @param string $margin   Margin
+ * @param array  $atts     Any other attributes
+ *
+ * @return string HTML div tag
+ */
+function ispan($text, $style = null, $fontsize = null, $margin = null, $atts = null)
+{
+    if ($fontsize) {
+         $style="font-size:".$fontsize.";".$style;
+    }
+            
+    if ($margin || $margin===0) {
+        $style="margin:".$margin.";".$style;
+    }
+    
+    return geoTag('span', $text, null, null, $style, $atts);
+}
+
 
 /**
  * Create an HTML p tag.
