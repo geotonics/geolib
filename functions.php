@@ -346,7 +346,7 @@ function itag($tagName = null, $text=null, $style = null, $fontsize = null, $mar
  */
 function idiv($text, $style = null, $fontsize = null, $margin = null, $atts = null)
 {
-    return itag("div",  $text, $style, $fontsize, $margin, $atts)
+    return itag("div",  $text, $style, $fontsize, $margin, $atts);
 }
 
 /**
@@ -362,7 +362,7 @@ function idiv($text, $style = null, $fontsize = null, $margin = null, $atts = nu
  */
 function ispan($text, $style = null, $fontsize = null, $margin = null, $atts = null)
 {
-    return itag("span",  $text, $style, $fontsize, $margin, $atts)
+    return itag("span",  $text, $style, $fontsize, $margin, $atts);
 }
 
 /**
