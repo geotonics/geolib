@@ -307,6 +307,32 @@ function div($text, $class = null, $id = null, $style = null, $atts = null)
     return geoTag('div', $text, $class, $id, $style, $atts);
 }
 
+
+/**
+ * Create an inline HTML tag.
+ *
+ * @param string $tagName  Html tag
+ * @param string $text     Content of div tag
+ * @param string $style    Style attribute
+ * @param string $fontsize Font size
+ * @param string $margin   Margin
+ * @param array  $atts     Any other attributes
+ *
+ * @return string HTML div tag
+ */
+function itag($tagName = null, $text=null, $style = null, $fontsize = null, $margin = null, $atts = null)
+{
+    if ($fontsize) {
+         $style="font-size:".$fontsize.";".$style;
+    }
+            
+    if ($margin || $margin===0) {
+        $style="margin:".$margin.";".$style;
+    }
+    
+    return geoTag($tabName, $text, null, null, $style, $atts);
+}
+
 /**
  * Create an inline HTML div tag.
  *
@@ -320,15 +346,7 @@ function div($text, $class = null, $id = null, $style = null, $atts = null)
  */
 function idiv($text, $style = null, $fontsize = null, $margin = null, $atts = null)
 {
-    if ($fontsize) {
-         $style="font-size:".$fontsize.";".$style;
-    }
-            
-    if ($margin || $margin===0) {
-        $style="margin:".$margin.";".$style;
-    }
-    
-    return geoTag('div', $text, null, null, $style, $atts);
+    return itag("div",  $text, $style, $fontsize, $margin, $atts)
 }
 
 /**
@@ -340,21 +358,12 @@ function idiv($text, $style = null, $fontsize = null, $margin = null, $atts = nu
  * @param string $margin   Margin
  * @param array  $atts     Any other attributes
  *
- * @return string HTML div tag
+ * @return string HTML span tag
  */
 function ispan($text, $style = null, $fontsize = null, $margin = null, $atts = null)
 {
-    if ($fontsize) {
-         $style="font-size:".$fontsize.";".$style;
-    }
-            
-    if ($margin || $margin===0) {
-        $style="margin:".$margin.";".$style;
-    }
-    
-    return geoTag('span', $text, null, null, $style, $atts);
+    return itag("span",  $text, $style, $fontsize, $margin, $atts)
 }
-
 
 /**
  * Create an HTML p tag.
