@@ -330,7 +330,7 @@ function itag($tagName = null, $text=null, $style = null, $fontsize = null, $mar
         $style="margin:".$margin.";".$style;
     }
     
-    return geoTag($tabName, $text, null, null, $style, $atts);
+    return geoTag($tagName, $text, null, null, $style, $atts);
 }
 
 /**
@@ -345,7 +345,7 @@ function itag($tagName = null, $text=null, $style = null, $fontsize = null, $mar
  * @return string HTML div tag
  */
 function idiv($text, $style = null, $fontsize = null, $margin = null, $atts = null)
-{
+{ 
     return itag("div",  $text, $style, $fontsize, $margin, $atts);
 }
 
@@ -1172,7 +1172,7 @@ function geoItem($text = null, $class = null, $id = null, $style = null)
  * @param array   $itemStyles  Array of styles for each list item
  * @param array   $listItemIds Array of ids for each list item
  *
- * @return string End tag
+ * @return HTML List tag
  */
 function geoList(
     $lists = null,
@@ -1202,6 +1202,57 @@ function geoList(
             Geo::ifArr($lt, $key)
         );
         $allLists .= $list->tag($itemClasses, $listItemIds, $itemStyles);
+    }
+    return $allLists;
+}
+/**
+ * Create inline HTML list or array of lists
+ *
+ * @param array   $lists       1 or 2 dimensional array
+ *      A 2 dimensional array will result in a list for each array.
+ * @param string  $style       List Style
+ * @param string  $fontSize    Font Size
+ * @param string  $margin      Margin
+ * @param integer $cols        Number of columns. Break $lists into one list for each column
+ * @param array   $itemStyles  Array of styles for each list item
+ * @param string  $lt          List type (either ul or ol) Default is ul
+ *
+ * @return string List tag
+ */
+function geoIList(
+    $lists = null,
+    $styles = null,
+    $fontsize = null,
+    $margin = null,
+    $cols = 1,
+    $itemStyles = null,
+    $lt = 'ul'
+) {
+        $styles=Geo::arr($styles);
+    
+        foreach($styles as $key=>$style){
+            if ($fontsize) {
+                $style="font-size:".$fontsize.";".$style;
+            }
+            if ($margin || $margin===0) {
+                $style="margin:".$margin.";".$style;
+            }  
+            $styles[$key]=$style;
+        }
+    
+    $lists    = geoMultiArr($lists);
+    $allLists = '';
+    
+    foreach ($lists as $key => $list) {
+        $list = new GeoList(
+            $list,
+            null,
+            null,
+            Geo::ifArr($cols, $key),
+            Geo::ifArr($styles, $key),
+            Geo::ifArr($lt, $key)
+        );
+        $allLists .= $list->tag(null, null, $itemStyles);
     }
     return $allLists;
 }
