@@ -43,7 +43,7 @@ if (GEO_START_SESSION) {
 }
 
 // Include wrapper functions
-require "functions.php";
+require "geoFunctions.php";
 spl_autoload_register('geolib_autoloader');
 GeoDebug::init();
 GeoHtml::setDoctype();

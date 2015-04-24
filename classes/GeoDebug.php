@@ -356,7 +356,7 @@ class GeoDebug
      *     Default is level 1
      *     If true, return entire backtrace
      * @param bool   $return        Determines whether to print out or add to debugging
-     * @param bool   $dontTraceFrom Add a one line trace to the location of the calling function.
+     * @param bool   $dontTraceFrom Don't add a one line trace to the location of the calling function.
      *
      * @return text|array One line, or array if returning entire backtrace
      */
@@ -368,9 +368,23 @@ class GeoDebug
             $level = 1;
         }
         
+        $upLevel=$level-1;
+        
+        if(isset($backtrace[$level]['class'])){
+            $fromClass=$backtrace[$level]['class']." ".$backtrace[$level]['function'].": ";
+        } else {
+            $fromClass="";
+        }
+        
+        $tracedFrom="Traced from ".$fromClass.$backtrace[$upLevel]['file'] .
+        " line " .
+        $backtrace[$upLevel]['line'];
+
+        
+        
         if ($level === true) {
             $traceLine = $backtrace;
-            $traceLine[0] = $line;
+            $traceLine[$upLevel]=$tracedFrom;
         } else {
             $trace="";
             if (isset($backtrace[$level + 1])) {
@@ -379,9 +393,7 @@ class GeoDebug
             $trace.=$backtrace[$level]['file'].' line ' . $backtrace[$level]['line'];
             $traceArr=array($trace);
             if (!$dontTraceFrom) {
-                $traceArr[]="Traced from:".$backtrace[0]['file'] .
-                " line " .
-                $backtrace[0]['line'];
+                $traceArr[]=$tracedFrom;
             }
             
             $traceLine = div($traceArr);
@@ -494,7 +506,7 @@ class GeoDebug
                 if (!$style) {
                     $style = "margin:1em 0; overflow:auto;clear:both;";
                     if ($height) {
-                        $style .= ' height:' . $height . "px;";
+                        $style .= ' max-height:' . $height . "px;";
                     }
                     if ($width) {
                         if ($width === true) {

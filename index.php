@@ -25,6 +25,7 @@ if (isset($_POST['cancelDebuggingAuthorization'])) {
 if (isset($_POST['geoDebugPassword'])) {
     if ($_POST['geoDebugPassword']==GEO_DEBUG_PASSWORD) {
         Geo::setSession('debugIsAuthorized', true);
+        GeoDebug::debugging();
     }
 }
 
@@ -34,7 +35,6 @@ if (Geo::session('debugIsAuthorized')) {
     if (isset($_GET["action"])) {
         $actionArr=explode("_", $_GET["action"]);
         
-        GeoDebug::db($actionArr, 'actionArr');
         switch($actionArr[0]){
             case "dbOut":
                 if ($actionArr[1]) {

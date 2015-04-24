@@ -649,7 +649,7 @@ class Geo
             //$uri = $_SERVER['REQUEST_URI'];
         }
         // Redirect browser to $uri page
-        header("Location: " . $uri."?asdf");
+        header("Location: " . $uri);
         
         //this is executed only if header fails and throws warning
         echo "Redirect to $uri ($uri) failed";
