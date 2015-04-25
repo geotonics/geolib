@@ -13,7 +13,10 @@
 require_once "geolib.php";
 
 $title="GeoManager";
-    $list=array(geoLink("../", "Home"));
+    $list=array(
+        geoLink("../", "Home"),
+        geoLink("session.php",'Session')
+    );
     $body=h3($title);
    
 
