@@ -1051,7 +1051,7 @@ function geoRadio(
  *     All radios in 1 group have the same name and different ids
  *
  * @param string $name        Name of Radio group. Also becomes id, with added index.
-* @param array  $titles      An array of $values=>$titles
+ * @param array  $titles      An array of $values=>$titles
  * @param string $default     Value of selected radio button
  * @param mixed  $listClass   If this value is supplied:
  *                                If true, function returns an array of radio buttons.
@@ -1086,12 +1086,17 @@ function geoRadios(
             if ($inputClass) {
                 $inputClasses[] = $inputClass;
             }
-          
-            $radios["li_".$name . "_" . $k]=geoRadio(
+            if($listClass==true){
+                $li=$k;
+            } else {
+                $li="li_".$name . "_" . $k;
+            }
+            
+            $radios[]=geoRadio(
                 $name,
                 $name . "_" . $k,
                 $title,
-                geoIf($default == $k),
+                geoIf(isset($default) && $default == $k),
                 $k,
                 null,
                 geoIf($inputClasses, implode(" ", $inputClasses)),
@@ -1105,6 +1110,7 @@ function geoRadios(
   
     if ($listClass === true || $break === true) {
         // no list, just return array
+        geodb($radios,'radios');
         return $radios;
     }
   

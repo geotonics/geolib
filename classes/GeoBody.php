@@ -53,13 +53,14 @@ class GeoBody extends GeoTag
      * Creates print out body tag
      *
      * @param string $addon Extra html to add to end of body text
+     * @param string $prepend Extra html to prepend to the body text
      * @param bool   $start Indicates that tag will be start plus content without end tag.
      *
      * @return text html body tag
      */
-    public function tag($addon = null, $start = null)
-    {
-        $this->text .= $addon;
+    public function tag($addon = null, $prepend= null, $start = null)
+    {   
+        $this->text = $prepend.$this->text.$addon;
         return parent::baseTag($start);
     }
 }

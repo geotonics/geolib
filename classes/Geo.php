@@ -117,8 +117,8 @@ class Geo
         );
         for ($x = 0; $x < count($wipebr); $x++) {
             $tag  = $wipebr[$x];
-            $html = Geo::strReplace("<$tag><br />", "<$tag>", $html);
-            $html = Geo::strReplace("</$tag><br />", "</$tag>", $html);
+            $html = static::strReplace("<$tag><br />", "<$tag>", $html);
+            $html = static::strReplace("</$tag><br />", "</$tag>", $html);
         }
         
         return $html;
@@ -135,7 +135,7 @@ class Geo
     */
     public static function writeToFile($filename, $content, $mode = 'w')
     {
-        $content = Geo::arr($content);
+        $content = static::arr($content);
         $content = implode("\t", $content) . "\n";
         if (is_writable($filename)) {
             if ($handle = fopen($filename, $mode)) {
@@ -157,7 +157,7 @@ class Geo
                     $handle = fopen($filename, "w");
                     fclose($handle);
                 if (file_exists($filename)) {
-                    $feedback=self::writeToFile($filename, $content, $mode);
+                    $feedback=static::writeToFile($filename, $content, $mode);
                     
                 } else {
                     $feedback = $filename . " does not exist anc could not be created";
@@ -447,7 +447,7 @@ class Geo
         } else {
             // Already more pieces than requested, split arrays into existing
             //     number of pieces
-            return Geo::arraySplit($arr, $toparts);
+            return static::arraySplit($arr, $toparts);
         }
         return $ret;
     }
@@ -682,7 +682,7 @@ class Geo
             
             if (is_array($contentArr[1][$titleNum])) {
                 $js .= "$('#tabs" . $tabNumber . "').tabs();";
-                $contentArr[1][$titleNum] = self::makeTabs(
+                $contentArr[1][$titleNum] = static::makeTabs(
                     $contentArr[1][$titleNum],
                     $tabNumber
                 );
@@ -707,7 +707,13 @@ class Geo
      * Creates a css table from a multidimensional array
      *
      * @param array        $rows          A mulitidemensional array. Each row is an array of content
-                                              If the row index is non numeric, it will be used as the row id
+     *                                         If the row index is non numeric:
+     *                                             -The row index will be used as the row id
+     *                                             -If the row index has one or more underlines "_"
+     *                                                 -The first segment will be used as the row class
+     *                                             -Otherwise, if the row index has no underlines
+     *                                                 -The row index will also be used as the row class
+     *
      * @param array|string $classes       Wrapper Class or classes (in addition to the default wrapper class(es))
      * @param array|string $rowClasses    If $rowClasses is an array each value is a class for a corresponding row.
                                               This will only work is if $rows and $rowClassess have matching indexes.
@@ -729,17 +735,24 @@ class Geo
         $columnClasses = null,
         $tableClass = "cssTable"
     ) {
+
         if (isset($rows) && $rows) {
-            $classes   = Geo::arr($classes, true);
+            $classes   = static::arr($classes, true);
             
             if ($tableClass) {
                 $classes[] = $tableClass;
             }
             
             foreach ($rows as $key => $row) {
+                
+                if (!is_numeric($key)){
+                 $rowIds[$key]=$key;
+                 $rowClasses[$key]=static::exp($key,0);
+                }
+                
                 $allRows[$key]=div($row, $columnClasses);
             }
-            
+
             return div(div($allRows, $rowClasses, $rowIds), geoIf($classes, implode(' ', $classes)));
             
         }
@@ -812,7 +825,7 @@ class Geo
         
         
         if ($fh) {
-            $skips = Geo::arr($skips);
+            $skips = static::arr($skips);
             $files = $directories = array();
             
             while (false !== ($filename = readdir($fh))) {
@@ -827,7 +840,7 @@ class Geo
                 if ($filename != '.' && $filename != '..' && !in_array($filename, $skips)) {
                     if ($includeSubDirs && is_dir($dirFile)) {
                         $directories[$filename]
-                            = self::fileNames($dirstr . $filename, $includeSubDirs, $geoLinks, $skips);
+                            = static::fileNames($dirstr . $filename, $includeSubDirs, $geoLinks, $skips);
                     } elseif ($geoLinks) {
                             $files[] = geoLink($dirstr . $filename, $filename);
                     } elseif (!is_dir($dirFile)) {
@@ -865,7 +878,6 @@ class Geo
             $value='';
         }
       
-        //geoDb($value,'thevalue');
         if ($printableClass) {
             return span($value, $printableClass);
         }

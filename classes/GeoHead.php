@@ -213,9 +213,10 @@ class GeoHead extends GeoTag
     }
     
     /**
-     * Get scripts. Sets scripts for the head or the body via geohtmlObj
+     * Get scripts. Sets scripts for the head or the end of the body via geohtmlObj
      *
-     * @param bool $getHeadScripts Indicates whether to get scripts indended for the head or the body. Default is body.
+     * @param bool $getHeadScripts Indicates whether to get scripts indended for the head 
+     *     or the end of the body. Default is the end of the body.
      *
      * @return string $scripts Script tags
      */
@@ -281,7 +282,7 @@ class GeoHead extends GeoTag
     {
         $this->addHtml = $html;
     }
-
+    
     /**
      * HTML head tag
      *

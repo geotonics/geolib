@@ -128,13 +128,14 @@ class GeoTag
      */
     public function baseTag($start = null, $end = null)
     {
+        
         $tags = $attsline = '';
         if ($end) {
             return "</" . $this->tag . ">";
         }
         
         $this->text = Geo::arr($this->text);
-        
+
         foreach ($this->text as $key => $value) {
             $attsarr = array();
             $tags .= "<" . $this->tag;
@@ -142,19 +143,22 @@ class GeoTag
            
             if ($this->atts) {
                 foreach ($this->atts as $key2 => $value2) {
+                    
                     if (isset($value2)) {
-                        $attsarr[] = $key2 . '="' . Geo::ifArr($value2, $key).
-                        geoIf($key2 == 'id' && $key, "_" . $key) . '"';
-                    }
+                        $value3=Geo::ifArr($value2, $key);
+                       
+                        if($value3){
+                            $attsarr[] = $key2 . '="' . $value3.
+                            geoIf($key2 == 'id' && $key && is_numeric($key), "_" . $key) . '"';
+                        }
+
+                    } 
+                    
                 }
             }
             
             if ($attsarr) {
-                $attsline = implode(' ', $attsarr);
-            }
-            
-            if ($attsline) {
-                $tags .= " " . $attsline;
+                $tags .= " ".implode(' ', $attsarr);
             }
             
             if ($this->isinline) {
