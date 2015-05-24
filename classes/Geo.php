@@ -870,7 +870,7 @@ class Geo
      *
      * @return HTML text input with validation
      */
-    public static function validText($name, &$values, &$missing, $prefix = null, $printableClass = null)
+    public static function validText($name, &$values, &$missing, $prefix = null, $printableClass = null, $class = null)
     {
         if (isset($values[$name])) {
             $value=$values[$name];
@@ -889,7 +889,7 @@ class Geo
         }
       
       
-        $input=geoInput('text', $prefixName, $value, null, $prefixName);
+        $input=geoInput('text', $prefixName, $value, null, $prefixName, $class);
         if (isset($missing[$prefixName])) {
             $input.=div($missing[$prefixName], 'errorText');
         }

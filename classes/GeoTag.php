@@ -147,7 +147,7 @@ class GeoTag
                     if (isset($value2)) {
                         $value3=Geo::ifArr($value2, $key);
                        
-                        if($value3){
+                        if(isset($value3)){
                             $attsarr[] = $key2 . '="' . $value3.
                             geoIf($key2 == 'id' && $key && is_numeric($key), "_" . $key) . '"';
                         }

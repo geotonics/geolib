@@ -135,6 +135,28 @@ class GeoDebug
     }
     
     /**
+     * Start or end debugging session by setting debugging flag
+     *
+     * @param bool $start  Start debugging session. Default is end debugging 
+     * @param bool $temp Start temporary debugging and reset debugging flag to original value upon output
+     *
+     * @return void.
+     */
+    public static function debug($start = null, $temp = null)
+    {
+        $isDebugSession=Geo::session("isDebugSession");
+        if ($temp) {
+            Geo::setSession('origIsDebugSession', $isDebugSession);
+        }
+        if ($start) {
+            Geo::setSession('isDebugSession', true);
+        } else {
+            Geo::setSession('isDebugSession');
+        }
+    }
+    
+    /**
+    /**
      * Formats debugging variables for display
      *
      * @param mixed  $variable Any type of variable being debugged
@@ -379,19 +401,20 @@ class GeoDebug
         $tracedFrom="Traced from ".$fromClass.$backtrace[$upLevel]['file'] .
         " line " .
         $backtrace[$upLevel]['line'];
-
-        
         
         if ($level === true) {
             $traceLine = $backtrace;
             $traceLine[$upLevel]=$tracedFrom;
         } else {
             $trace="";
+            
             if (isset($backtrace[$level + 1])) {
                 $trace.= $backtrace[$level + 1]['function']."()::";
             }
+            
             $trace.=$backtrace[$level]['file'].' line ' . $backtrace[$level]['line'];
             $traceArr=array($trace);
+            
             if (!$dontTraceFrom) {
                 $traceArr[]=$tracedFrom;
             }
