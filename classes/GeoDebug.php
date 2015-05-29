@@ -114,9 +114,10 @@ class GeoDebug
 
     
     /**
+     * This function is depreciated. Use Geodebug::debug() instead. 
      * Start or end debugging session by setting debugging flag
      *
-     * @param bool $end  End debugging session. Default is start debugging system.
+     * @param bool $end  End debugging session. Default is start debugging.
      * @param bool $temp Start temporary debugging and reset debugging flag to original value upon output
      *
      * @return void.
@@ -124,14 +125,12 @@ class GeoDebug
     public static function debugging($end = null, $temp = null)
     {
         $isDebugSession=Geo::session("isDebugSession");
+
         if ($temp) {
             Geo::setSession('origIsDebugSession', $isDebugSession);
         }
-        if ($end) {
-            Geo::setSession('isDebugSession');
-        } else {
-            Geo::setSession('isDebugSession', true);
-        }
+       
+        Geo::setSession('isDebugSession', !$end);
     }
     
     /**
@@ -145,17 +144,14 @@ class GeoDebug
     public static function debug($start = null, $temp = null)
     {
         $isDebugSession=Geo::session("isDebugSession");
+
         if ($temp) {
             Geo::setSession('origIsDebugSession', $isDebugSession);
         }
-        if ($start) {
-            Geo::setSession('isDebugSession', true);
-        } else {
-            Geo::setSession('isDebugSession');
-        }
+
+        Geo::setSession('isDebugSession', $start);
     }
     
-    /**
     /**
      * Formats debugging variables for display
      *
