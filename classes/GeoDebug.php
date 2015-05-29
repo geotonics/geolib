@@ -352,7 +352,7 @@ class GeoDebug
         }
         
         if ($_FILES) {
-            $result .= Geo::self($_FILES, '$_FILES');
+            $result .= self::vr($_FILES, '$_FILES');
         }
         
         if ($result || $always) {

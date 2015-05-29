@@ -100,16 +100,16 @@ function geoHead(
  * Create HTML body
  *
  * @param string $page   Content of body tag
- * @param string $onload Javascript to be run on page load
  * @param string $class  Class attribute
+ * @param string $onload Javascript to be run on page load
  * @param string $style  Style attribute
  * @param string $id     Id attribute
  *
  * @return string HTML body
 */
-function geoBody($page, $onload = null, $class = null, $style = null, $id = null)
+function geoBody($page, $class = null, $onload = null, $style = null, $id = null)
 {
-    return new GeoBody($page, $onload, $class, $style, $id);
+    return new GeoBody($page, $class, $onload, $style, $id);
 }
 
 /**
@@ -649,8 +649,9 @@ function geoForm(
             $atts[$name] = $value;
         }
     } else {
-        $atts["onsubmit"] = $atts;
+        $atts=array("onsubmit" =>$atts);
     }
+    
     if ($enctype) {
         $atts["enctype"] = "multipart/form-data";
     }
