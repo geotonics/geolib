@@ -843,7 +843,7 @@ class Geo
                             = static::fileNames($dirstr . $filename, $includeSubDirs, $geoLinks, $skips);
                     } elseif ($geoLinks) {
                             $files[] = geoLink($dirstr . $filename, $filename);
-                    } elseif (!is_dir($dirFile)) {
+                    } else {
                             $files[] = $filename;
                     }
                 }
