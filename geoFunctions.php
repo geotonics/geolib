@@ -1487,7 +1487,18 @@ function geoDb(
     return GeoDebug::db($variable, $name, $addBacktrace, $return, $noHighlight, $always, 1);
 }
 
-
+/**
+     * Creates full trace or selected trace level
+     *
+     * @param string $name          Identifies trace in debugging output
+     * @param int    $level         Limits trace to a single level of backtrace
+     *     Default is level 1
+     *     If true, return entire backtrace
+     * @param bool   $return        Determines whether to print out or add to debugging
+     * @param bool   $dontTraceFrom Don't add a one line trace to the location of the calling function.
+     *
+     * @return text|array One line, or array if returning entire backtrace
+     */
 function geoTrace(
     $name = null,
     $level = 2,
@@ -1496,3 +1507,4 @@ function geoTrace(
 ){
     return geoDebug::trace($name, $level, $return, $dontTraceFrom);
 }
+

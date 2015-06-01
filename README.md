@@ -18,3 +18,20 @@ Because it doesn't need to get or control data, it doesn't use the Model/View/Co
 ####Its Better This Way
 
 You can use the geolib framework to help you write your own database interface, or you can use a separate database library. Either way, you can use geolib to help you write a model/view/controller design pattern to view or control data, or any other design pattern you find convenient. This is actually better than using a framework which insists that you start with a model/view/controller pattern, because the model/view/controller that you write won't have to be a complex monstrousity adabtable to every conceivable situation. It can be specifically targeted to serve your particular website, and will therefore be simpler, more adaptable and easier to use.
+
+####How to install Geolib
+
+Geolib consists of the /geolib/ directory, which you can add via git or ftp. I usually add the /geolib/ directory to the website's main directory, but it really doesn't matter where you put it. 
+
+To activate Geolib, simply include /geolib/geolib.php
+ 
+To include geolib automatically in all your web pages, add this to an .htaccess file in the main directory. 
+php_value       auto_prepend_file    /path/to/home/geolib/geolib.php
+
+####Some Optional Settings. 
+Once Geolib is installed, open /geolib/defaultConfig.php, save it as config.php, and define various constants that you may find usefull.
+
+####How to debug. 
+Geolib includes a debugging system which can be inegrated into your webpages.
+To start debugging, go to /geolib/index.php and click on the links. The debugging password is not required, but if you want to set a password, you can set it in the config.php file. 
+To add a variable to the debugging array, use function geodb($value,$name); Once debugging is turned on, all debug variables are automatically dumped at the end of every web page produced by geoHtml(). You can also dump the debug variables anywhere with geoDebug::vars();
