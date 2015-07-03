@@ -25,7 +25,8 @@ Geolib consists of the /geolib/ directory, which you can add via git or ftp. I u
 
 To activate Geolib, simply include /geolib/geolib.php
  
-To include geolib automatically in all your web pages, add this to an .htaccess file in the main directory. 
+To include Geolib automatically in all your web pages, add this to an .htaccess file in the main directory. 
+
 php_value       auto_prepend_file    /path/to/home/geolib/geolib.php
 
 ####Some Optional Settings. 
@@ -33,5 +34,6 @@ Once Geolib is installed, open /geolib/defaultConfig.php, save it as config.php,
 
 ####How to debug. 
 Geolib includes a debugging system which can be inegrated into your webpages.
-To start debugging, go to /geolib/index.php and click on the links. The debugging password is not required, but if you want to set a password, you can set it in the config.php file. 
+
+To start debugging, go to /geolib/ and click on the links. The debugging password is not required, but if you want to set a password, you can set it in the config.php file. 
 To add a variable to the debugging array, use function geodb($value,$name); Once debugging is turned on, all debug variables are automatically dumped at the end of every web page produced by geoHtml(). You can also dump the debug variables anywhere with geoDebug::vars();
