@@ -522,19 +522,25 @@ class GeoDebug
             
             //geoVar($debugVars,'debugVars');
             if ($debugVars) {
+                
                 if (!$style) {
-                    $style = "margin:1em 0; overflow:auto;clear:both;";
-                    if ($height) {
-                        $style .= ' max-height:' . $height . "px;";
-                    }
-                    if ($width) {
-                        if ($width === true) {
-                            $style .= " width:100%";
-                        } else {
-                            $style .= ' width:' . $width . "px;";
-                        }
+                    $style = "margin:1em 0;";
+                }
+                
+                $style.=" overflow:auto;clear:both;";
+                
+                if ($height) {
+                    $style .= ' max-height:' . $height . "px;";
+                }
+                
+                if ($width) {
+                    if ($width === true) {
+                        $style .= " width:100%";
+                    } else {
+                        $style .= ' width:' . $width . "px;";
                     }
                 }
+                
                 
                 $result = div(
                     "\n      ".
@@ -548,12 +554,12 @@ class GeoDebug
                             "style"=>"float:right;cursor:pointer;",
                             "onclick" => "this.parentNode.style.display = 'none';"
                         )
-                    )."\n      ".div($debugVars, null, null, null, array("style"=>'margin:.5em;',"class"=>"geodb")),
+                    )."\n      ".div($debugVars, null, null, null, array("style"=>'margin:.5em .5em 1em .5em;',"class"=>"geodb")),
                     null,
                     null,
                     null,
                     array(
-                        "style"=>"text-align:left; background:#fff; border:solid 1px #C8C8C8; z-index:99;". $style,
+                        "style"=>"text-align:left; background:#fff; border:solid 1px #C8C8C8; z-index:99; position:relative;". $style,
                         "class"=>"debugVars"
                     )
                 );
