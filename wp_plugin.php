@@ -6,12 +6,10 @@
 * Description: A PHP mini-framework
 * Version: 1.0
 * Author: Peter Pitchford
-* Author URI: http://geolib.com/
+* Author URI: http://geotonics.com/
 **/
 
 include "geolib.php";
-
-
 
 /**
 * Add geoLib options page to Settings section of Wordpress admin
@@ -59,6 +57,13 @@ function display_geoDebugVars() {
 
 add_action( 'wp_footer', 'display_geoDebugVars' );
 
+function display_geoDebugVars_admin() {
+    
+    echo geoDebug::vars(null,null,null,"margin:0 25px 50px 180px;");
+}
+
+add_action( 'admin_footer', 'display_geoDebugVars_admin' );
+
 
 set_geolib_debug_session();
 /**
@@ -70,4 +75,3 @@ function set_geolib_debug_session(){
         Geo::setSession("geoDbOut",get_option('geolib_dbout'));
    
 }
-
