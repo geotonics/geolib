@@ -117,8 +117,8 @@ class Geo
         );
         for ($x = 0; $x < count($wipebr); $x++) {
             $tag  = $wipebr[$x];
-            $html = static::strReplace("<$tag><br />", "<$tag>", $html);
-            $html = static::strReplace("</$tag><br />", "</$tag>", $html);
+            $html = self::strReplace("<$tag><br />", "<$tag>", $html);
+            $html = self::strReplace("</$tag><br />", "</$tag>", $html);
         }
         
         return $html;
@@ -135,7 +135,7 @@ class Geo
     */
     public static function writeToFile($filename, $content, $mode = 'w')
     {
-        $content = static::arr($content);
+        $content = self::arr($content);
         $content = implode("\t", $content) . "\n";
         if (is_writable($filename)) {
             if ($handle = fopen($filename, $mode)) {
@@ -157,7 +157,7 @@ class Geo
                     $handle = fopen($filename, "w");
                     fclose($handle);
                 if (file_exists($filename)) {
-                    $feedback=static::writeToFile($filename, $content, $mode);
+                    $feedback=self::writeToFile($filename, $content, $mode);
                     
                 } else {
                     $feedback = $filename . " does not exist anc could not be created";
@@ -447,7 +447,7 @@ class Geo
         } else {
             // Already more pieces than requested, split arrays into existing
             //     number of pieces
-            return static::arraySplit($arr, $toparts);
+            return self::arraySplit($arr, $toparts);
         }
         return $ret;
     }
@@ -682,7 +682,7 @@ class Geo
             
             if (is_array($contentArr[1][$titleNum])) {
                 $js .= "$('#tabs" . $tabNumber . "').tabs();";
-                $contentArr[1][$titleNum] = static::makeTabs(
+                $contentArr[1][$titleNum] = self::makeTabs(
                     $contentArr[1][$titleNum],
                     $tabNumber
                 );
@@ -737,7 +737,7 @@ class Geo
     ) {
 
         if (isset($rows) && $rows) {
-            $classes   = static::arr($classes, true);
+            $classes   = self::arr($classes, true);
             
             if ($tableClass) {
                 $classes[] = $tableClass;
@@ -747,7 +747,7 @@ class Geo
                 
                 if (!is_numeric($key)){
                  $rowIds[$key]=$key;
-                 $rowClasses[$key]=static::exp($key,0);
+                 $rowClasses[$key]=self::exp($key,0);
                 }
                 
                 $allRows[$key]=div($row, $columnClasses);
@@ -825,7 +825,7 @@ class Geo
         
         
         if ($fh) {
-            $skips = static::arr($skips);
+            $skips = self::arr($skips);
             $files = $directories = array();
             
             while (false !== ($filename = readdir($fh))) {
@@ -840,7 +840,7 @@ class Geo
                 if ($filename != '.' && $filename != '..' && !in_array($filename, $skips)) {
                     if ($includeSubDirs && is_dir($dirFile)) {
                         $directories[$filename]
-                            = static::fileNames($dirstr . $filename, $includeSubDirs, $geoLinks, $skips);
+                            = self::fileNames($dirstr . $filename, $includeSubDirs, $geoLinks, $skips);
                     } elseif ($geoLinks) {
                             $files[] = geoLink($dirstr . $filename, $filename);
                     } else {
