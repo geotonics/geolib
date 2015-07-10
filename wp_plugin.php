@@ -6,7 +6,7 @@
 * Description: A PHP mini-framework
 * Version: 1.0
 * Author: Peter Pitchford
-* Author URI: http://geotonics.com/
+* Author URI: http://geolib.com/
 **/
 
 include "geolib.php";
@@ -14,33 +14,39 @@ include "geolib.php";
 /**
 * Add geoLib options page to Settings section of Wordpress admin
 */
-function geoform_register_settings() {
-	add_option( 'geolib_dbout', '0');
-	register_setting( 'default', 'geolib_dbout' ); 
-	add_option( 'geolib_debugging', null);
-	register_setting( 'default', 'geolib_debugging' ); 
+function geolib_register_settings() {
+	add_option( geo_option("db_out"), '0');
+	register_setting( 'default', geo_option("db_out") ); 
+	add_option( geo_option('debugging'), null);
+	register_setting( 'default', geo_option('debugging') ); 
+	set_geolib_debug_session();
 } 
 
-add_action( 'admin_init', 'geoform_register_settings' );
+add_action( 'admin_init', 'geolib_register_settings' );
+add_action( 'init', 'set_geolib_debug_session' );
  
-function geoform_register_options_page() {
-	add_options_page('Geolib Options', 'Geolib', 'manage_options', 'geolib-options', 'geoform_options_page');
+function geolib_register_options_page() {
+	add_options_page('Geolib Options', 'Geolib', 'manage_options', 'geolib-options', 'geolib_options_page');
 }
-add_action('admin_menu', 'geoform_register_options_page');
+add_action('admin_menu', 'geolib_register_options_page');
+
+function geo_option($name){
+    return "geolib_".$name."_".get_current_user_id();
+}
  
- 
-function geoform_options_page() {
+function geolib_options_page() {
 	?>
 <div class="wrap">
 	
 	<h2>GeoLib Options</h2>
 	<form method="post" action="options.php"> 
         <?php settings_fields( 'default' ); ?>
-		<?php echo h3("Debug Settings").
+		<?php 
+		echo h3("Debug Settings").
 		    p(
-		        geoCheckbox("geolib_debugging","Turn Debugging on",get_option('geolib_debugging'))
+		        geoCheckbox(geo_option('debugging'),"Turn Debugging on (for this user)",get_option(geo_option('debugging')))
 		    )
-		    //.geoRadios("geolib_dbout",array("Add to debugging array","Echo debug","Return debug"),get_option('geolib_dbout'),"plainlist")
+		    //.geoRadios("geolib_dbout",array("Add to debugging array","Echo debug","Return debug"),get_option(geo_option("db_out")),"plainlist")
 		    ;
 		 submit_button(); 
 		 echo GeoDebug::vars();
@@ -50,28 +56,16 @@ function geoform_options_page() {
 <?php
 }
 
-
 function display_geoDebugVars() {
     echo geoDebug::vars();
 }
 
 add_action( 'wp_footer', 'display_geoDebugVars' );
 
-function display_geoDebugVars_admin() {
-    
-    echo geoDebug::vars(null,null,null,"margin:0 25px 50px 180px;");
-}
-
-add_action( 'admin_footer', 'display_geoDebugVars_admin' );
-
-
-set_geolib_debug_session();
 /**
 *  Create debug session variables for Geolib debudding from Wordpress options
 */
 function set_geolib_debug_session(){ 
-   // if(current_user_can( 'manage_options' )){
-        Geo::setSession("isDebugSession",get_option('geolib_debugging')); 
-        Geo::setSession("geoDbOut",get_option('geolib_dbout'));
-   
+    GeoDebug::debug(get_option(geo_option('debugging'))); 
+    //Geo::setSession("geoDbOut",get_option(geo_option("db_out")));
 }

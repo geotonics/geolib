@@ -21,7 +21,12 @@ define("GEO_DEFAULT_FROM", "");
 define("GEO_IMAGE_PATH", "");
 define("GEO_DEBUG_PASSWORD", "");
 define("GEO_INSTANCE", "geolib");
-define("GEO_URI", "/geolib/");
+
+if(function_exists("plugins_url")){
+    define("GEO_URI", str_replace("http://".$_SERVER["HTTP_HOST"],"",plugins_url( '' , __FILE__ ))."/");
+} else {
+    define("GEO_URI", "/geolib/");
+}
 
 /*
     GEO_BASE can be used for an alternative path to images or 
