@@ -56,11 +56,20 @@ function geolib_options_page() {
 <?php
 }
 
-function display_geoDebugVars() {
-    echo geoDebug::vars();
+function display_geoDebugVars (){
+    if(is_admin()){
+        $style='margin:0 16px 16px 180px';
+    } else {
+        global $template;
+        geoDb($template,'template');
+        $style="";
+    }
+    
+    echo geoDebug::vars(null,null,$style);
 }
 
 add_action( 'wp_footer', 'display_geoDebugVars' );
+add_action( 'admin_footer', 'display_geoDebugVars' );
 
 /**
 *  Create debug session variables for Geolib debudding from Wordpress options

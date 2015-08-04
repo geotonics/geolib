@@ -494,9 +494,9 @@ class GeoDebug
      *
      * @param int  $height          Layout height
      * @param int  $width           Layout width
-     * @param bool $dontDelete      Don't delete debug variables
      * @param text $style           Added styles
-     * @param test $userSessionName Name of user session
+     * @param bool $dontDelete      Don't delete debug variables
+          * @param test $userSessionName Name of user session
      *
      * @return html
      *
@@ -505,8 +505,8 @@ class GeoDebug
     public static function vars(
         $height = null,
         $width = null,
-        $dontDelete = null,
         $style = '',
+        $dontDelete = null,
         $userSessionName = null
     ) {
        
@@ -523,7 +523,9 @@ class GeoDebug
             //geoVar($debugVars,'debugVars');
             if ($debugVars) {
                 
-                if (!$style) {
+                if ($style) {
+                    $style=trim($style,';').';';
+                } else {
                     $style = "margin:1em 0;";
                 }
                 
