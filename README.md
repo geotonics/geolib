@@ -29,6 +29,15 @@ To include Geolib automatically in all your web pages, add this to an .htaccess 
 
 php_value       auto_prepend_file    /path/to/home/geolib/geolib.php
 
+Geolib can also be installed in Wordpress as a Wordpress plugin. 
+Download geolib-master.zip file with the "Download" button on
+https://github.com/geotonics/geolib
+
+Decompress geolib-master.zip and upload it via FTP to the /wp-content/plugins/ directory, or upload geolib-master.zip via WordPress's dashboard : Plugins > Add New
+Activate the plugin through the 'Plugins' menu in WordPress
+You will then see a link to the Geolib settings in the settings menu. 
+
+
 ####Some Optional Settings. 
 Once Geolib is installed, open /geolib/defaultConfig.php, save it as config.php, and define various constants that you may find usefull.
 

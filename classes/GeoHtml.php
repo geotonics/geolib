@@ -141,6 +141,8 @@ class GeoHtml extends GeoTag
                 " ",
                 $this->text
             );
+            
+            $this->text = preg_replace('!\s+!', ' ', $this->text);
         }
         
         GeoDebug::reset();
