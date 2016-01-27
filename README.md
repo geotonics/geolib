@@ -34,7 +34,8 @@ Download geolib-master.zip file with the "Download" button on
 https://github.com/geotonics/geolib
 
 Decompress geolib-master.zip and upload it via FTP to the /wp-content/plugins/ directory, or upload geolib-master.zip via WordPress's dashboard : Plugins > Add New
-Activate the plugin through the 'Plugins' menu in WordPress
+
+Activate the plugin through the 'Plugins' menu in WordPress.
 You will then see a link to the Geolib settings in the settings menu. 
 
 
