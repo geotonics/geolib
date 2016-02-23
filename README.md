@@ -40,7 +40,7 @@ You will then see a link to the Geolib settings in the settings menu.
 
 
 ####Some Optional Settings. 
-Once Geolib is installed, open /geolib/defaultConfig.php, save it as config.php, and define various constants that you may find usefull.
+Once Geolib is installed, open defaultConfig.php, save it as config.php, and define various constants that you may find usefull.
 
 ####How to debug. 
 Geolib includes a debugging system which can be inegrated into your webpages.
