@@ -136,13 +136,15 @@ class GeoHtml extends GeoTag
         } elseif ($tidyTag) {
             $this->text = Geo::tidy($this->text);
         } else {
+        	/*
             $this->text = str_replace(
                 array("\n", "\r"),
                 " ",
                 $this->text
             );
+            */
             
-            $this->text = preg_replace('!\s+!', ' ', $this->text);
+            //$this->text = preg_replace('!\s+!', ' ', $this->text);
         }
         
         GeoDebug::reset();

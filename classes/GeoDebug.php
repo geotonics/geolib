@@ -146,10 +146,16 @@ class GeoDebug
         $isDebugSession=Geo::session("isDebugSession");
 
         if ($temp) {
+        	
+        	if (!$isDebugSession) {
+        		$isDebugSession=false;
+        	}
+        	
             Geo::setSession('origIsDebugSession', $isDebugSession);
         }
 
         Geo::setSession('isDebugSession', $start);
+        
     }
     
     /**
@@ -301,13 +307,14 @@ class GeoDebug
     public static function reset()
     {
         $origIsDebugSession=Geo::session("origIsDebugSession");
-        if ($origIsDebugSession) {
+                
+        if (isset($origIsDebugSession)) {
             Geo::setSession('isDebugSession', $origIsDebugSession);
         }
+        
         Geo::setSession("origIsDebugSession");
         Geo::setSession("saveDebugVars");
         Geo::setSession("debugVars");
-        
     }
 
     /**
@@ -510,7 +517,7 @@ class GeoDebug
         $userSessionName = null
     ) {
        
-        //geo::trace(true);
+        //GeoDebug::trace('GeoDebug::vars');
         if (Geo::session('isDebugSession')) {
             $result='';
             if (!$userSessionName) {
@@ -574,5 +581,6 @@ class GeoDebug
             
             return $result;
         }
+        
     }
 }

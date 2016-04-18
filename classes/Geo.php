@@ -318,6 +318,7 @@ class Geo
         if ($arrayName) {
             if ($subArrayName) {
                 if ($name) {
+                
                     if ($value) {
                         $_SESSION[$arrayName][$subArrayName][$name]=$value;
                     } else {
@@ -335,8 +336,9 @@ class Geo
                     }
                 }
             } else {
+            	
                 if ($name) {
-                    if ($value) {
+                    if (isset($value)) {
                         $_SESSION[$arrayName][$name]=$value;
                     } else {
                         unset($_SESSION[$arrayName][$name]);
